@@ -1,0 +1,4 @@
+Set-ExecutionPolicy Unrestricted
+
+para activar env:
+.\env\Scripts\activate
