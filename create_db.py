@@ -15,14 +15,14 @@ cur.execute('CREATE TABLE Reserva(id int PRIMARY KEY AUTOINCREMENT, inicia varch
 
 cur.execute('CREATE TABLE Invitados(rut int PRIMARY KEY, nombre varchar(100), correo varchar(100), asistio int, reserva_id int, FOREIGN KEY(reserva_id) REFERENCES Reserva(id))')
 
-Roles = [(1, "Admin"), (2, "Usuario")]
-cur.executemany("INSERT INTO Rol VALUES (?, ?);", Roles)
+Roles = [("Admin"), ("Usuario"), ("Recepcion")]
+cur.executemany("INSERT INTO Rol(nombre) VALUES ( ?);", Roles)
 
-Salas = [(1, "Piso 1, Sala 12", 10), (2, "Piso 1, Sala 11", 15), (3, "Piso 2, Sala 24", 8)]
-cur.executemany("INSERT INTO Rol Sala (?, ?, ?);", Salas)
+Salas = [("Piso 1, Sala 12", 10), ("Piso 1, Sala 11", 15), ("Piso 2, Sala 24", 8)]
+cur.executemany("INSERT INTO Sala(ubicacion,aforo) VALUES(?, ?);", Salas)
 
-Estados = [(1, "Reserva realizada"), (2, "Reserva Cancelada"), (2, "Reserva Terminada")]
-cur.executemany("INSERT INTO Rol EstadoReserva (?, ?);", Estados)
+Estados = [("Reserva realizada"), ("Reserva Cancelada"), ("Reserva Terminada")]
+cur.executemany("INSERT INTO EstadoReserva(nombre) VALUES(?);", Estados)
 
 conn_bd.commit()
 
