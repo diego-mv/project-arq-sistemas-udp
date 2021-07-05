@@ -61,8 +61,6 @@ while True:
                 trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
                 socket.send(trans_cmd(encoding='UTF-8'))
             break
-            
-
     except:
         ex = sys.exc_info()[0]
         cur.execute(f'INSERT INTO errors (date_error, information) VALUES({date.today},{ex})')

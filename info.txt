@@ -13,6 +13,7 @@ confirmar-reserva: agrega una reserva en la bd como estado realizada
 reservas_realizadas: devuelve todas las reservas realizadas por el usuario
 cancelar_reserva: cancela una reserva
 
+
 #COMO FUNCIONA LA RESERVA DE SALA
 
 #primero elegir sala que quiere
@@ -39,5 +40,4 @@ menu:
 1. ingresar participante
 2. terminar reserva 
 3. cancelar reserva
-
 ######################################################

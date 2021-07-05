@@ -1,6 +1,4 @@
 from getpass import getpass
-import asyncio
-from services.register_user import SERVICE_NAME
 import socket
 import json
 
@@ -77,7 +75,7 @@ while True:
                 data_service = socket.recv(390)
                 break
 
-            if (True): #falta condicion de logged true IF LOGGIN == TRUE
+            if data_service[12:14] == 'Success': #Si el servicio login es exitoso: data_service = b'00000lgn01OKSuccess'
                 rut_usuario = data_login['rut']
                 print('Inicio de sesión exitoso.')
                 #---------------------------------MENU DESPUES DE LOGGEO-----------------------------------#
