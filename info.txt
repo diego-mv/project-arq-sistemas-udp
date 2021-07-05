@@ -1,0 +1,41 @@
+Set-ExecutionPolicy Unrestricted
+
+para activar env:
+.\env\Scripts\activate
+
+#Servicios
+login_sist_reserva: login
+registro_sist_reserva: registro
+lista-de-salas : devuelve todas las salas de la bd con todos sus datos
+horarios-usados-sala : devuelve los horarios usados de una sala en el dia elegido
+agregar_participante_en_reserva: agrega un participante en una reserva
+confirmar-reserva: agrega una reserva en la bd como estado realizada
+
+#COMO FUNCIONA LA RESERVA DE SALA
+
+#primero elegir sala que quiere
+Sala X
+Sala Y
+Sala Z
+
+#ingresar dia que quiere cita
+
+>> 15-09-2021
+
+#lista los horarios disponibles de la sala (a los disponibles les quita los que si estan registrados)
+
+09:00 - 10:00
+10:00 - 11:00
+11:00 - 12:00
+12:00 - 13:00
+13:00 - 14:00
+14:00 - 15:00
+15:00 - 16:00
+16:00 - 17:00
+
+menu:
+1. ingresar participante
+2. terminar reserva 
+3. cancelar reserva
+
+######################################################
