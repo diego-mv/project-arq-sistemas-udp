@@ -10,6 +10,8 @@ lista-de-salas : devuelve todas las salas de la bd con todos sus datos
 horarios-usados-sala : devuelve los horarios usados de una sala en el dia elegido
 agregar_participante_en_reserva: agrega un participante en una reserva
 confirmar-reserva: agrega una reserva en la bd como estado realizada
+reservas_realizadas: devuelve todas las reservas realizadas por el usuario
+cancelar_reserva: cancela una reserva
 
 #COMO FUNCIONA LA RESERVA DE SALA
 

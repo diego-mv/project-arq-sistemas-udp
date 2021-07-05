@@ -22,11 +22,11 @@ def SendToService(name_service, data):
     trans = generate_transaction_lenght(len(trans_cmd)) + str(trans_cmd)
     socket.send(trans.encode(encoding='UTF-8'))
 
-def GetFromService(name_service):
+def GetFromService(name_service): #Verifica si servicio esta UP (?)
     trans_cmd = 'getsv' + name_service
     trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
     socket.send(trans.encode(encoding='UTF-8'))
-    status = socket.recv(4090).decode('UTF-8')
+    status = socket.recv(4090).decode('UTF-8')[10:12]
     print(status)
     return status
 
@@ -74,7 +74,8 @@ while True:
                 print('2. Cancelar reserva')
                 print('3. Salir')
                 opt2 = int(input('>> '))
-                if(opt2 == 1):
+
+                if(opt2 == 1): #realizar reserva
                     if GetFromService('lista_de_salas') == 'OK':
                         data_list_sala = { 
                             'rut' : rut_usuario
@@ -181,6 +182,27 @@ while True:
 
                 elif(opt2 == 2): #Cancela reserva ya guardada en la BD
                     print('Indique la reserva que desea cancelar:')
+                    if GetFromService('reservas_realizadas') == 'OK' and GetFromService('cancelar_reserva') == 'OK':
+                            data_reservas_realiz = {
+                                'rut_anfitrion': rut_usuario
+                            }
+                            SendToService('reservas_realizadas', data_reservas_realiz)
+                            
+                            while True: 
+                                reservas_realizadas = socket.recv(390)
+                                break
+                            
+                            for i in len(reservas_realizadas):
+                                print(f'{i+1}. {reservas_realizadas[i][1]}')
+                            opt_reserva_cancel = int(input('>> '))
+                            data_cancel_reserva = {
+                                'reserva_id': reservas_realizadas[opt_reserva_cancel-1][0]
+                            }
+                            SendToService('cancelar_reserva', data_cancel_reserva)
+                            while True: 
+                                reservas_realizadas = socket.recv(390)
+                                break
+                            print('Reserva cancelada.')
                 else:
                     print('¡ADIOS!')
                     pass
