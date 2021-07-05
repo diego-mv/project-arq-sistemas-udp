@@ -1,7 +1,18 @@
 from getpass import getpass
 import asyncio
+from services.register_user import SERVICE_NAME
 import socket
 import json
+
+#------Servicios---------#
+SERVICE_LOGIN = 'lgn01'
+SERVICE_REGISTER = 'rgt01'
+SERVICE_LIST_SALAS = 'sls01'
+SERVICE_HOR_USADO_SALA = 'hus01'
+SERVICE_CONFIRM_RES = 'scr01'
+SERVICE_ADD_PARTICIPANTE_RESERV = 'apr01'
+SERVICE_RESERV_REALIZADAS = 'rer01'
+SERVICE_CANCEL_RESERV = 'car01'
 
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -13,6 +24,7 @@ print(f'Connected on server: {SERVER} port: {PORT}')
 #------------------------#
 
 def generate_transaction_lenght(trans_lenght):
+    trans_lenght = str(trans_lenght)
     max_char = 5 #cantidad maxima de caracteres permitida en el bus
     return trans_lenght.rjust(max_char, '0') #string de la transaccion con ceros a la izq para completar largo de 5
 
@@ -51,7 +63,7 @@ while True:
     opt = int(input("\n>> "))
 #-----------------------Iniciar sesion--------------------------#
     if(opt == 1):
-        if(GetFromService('login_sist_reserva')) == 'OK':
+        if(GetFromService(SERVICE_LOGIN)) == 'OK':
             print('Ingrese sus credenciales:')
             rut = input('RUT: ')
             psw = password = getpass('Contraseña: ')
@@ -59,7 +71,7 @@ while True:
                 'rut': rut,
                 'password': psw
             }
-            SendToService('login_sist_reserva', data_login)
+            SendToService(SERVICE_LOGIN, data_login)
             
             while True: 
                 data_service = socket.recv(390)
@@ -76,11 +88,11 @@ while True:
                 opt2 = int(input('>> '))
 
                 if(opt2 == 1): #realizar reserva
-                    if GetFromService('lista_de_salas') == 'OK':
+                    if GetFromService(SERVICE_LIST_SALAS) == 'OK':
                         data_list_sala = { 
                             'rut' : rut_usuario
                         }
-                        SendToService('lista_de_salas', data_list_sala)
+                        SendToService(SERVICE_LIST_SALAS, data_list_sala)
                         
                         while True: 
                             data_service_salas = socket.recv(390)
@@ -97,8 +109,8 @@ while True:
                             'id_sala': data_service_salas[opt_sala-1][0],
                             'fecha_req': fecha_req    
                         }
-                        if GetFromService('horarios_usados_sala') == 'OK':
-                            SendToService('horarios_usados_sala', data_sala)
+                        if GetFromService(SERVICE_HOR_USADO_SALA) == 'OK':
+                            SendToService(SERVICE_HOR_USADO_SALA, data_sala)
 
                             while True: 
                                 data_service_horario_usado = socket.recv(390)
@@ -140,7 +152,7 @@ while True:
                                         })
                                         print('Participante agregado')
                                 elif(opt3 == 2): #Confirmar reserva
-                                    if GetFromService('confirmar_reserva') == 'OK' and GetFromService('agregar_participante_en_reserva') == 'OK':
+                                    if GetFromService(SERVICE_CONFIRM_RES) == 'OK' and GetFromService(SERVICE_ADD_PARTICIPANTE_RESERV) == 'OK':
                                         print('Confirmando reserva...')
                                         data_confirma_reserva = {
                                             'inicia': f'{fecha_req} {HORARIOS_DISP[opt_horario][:5]}',
@@ -148,7 +160,7 @@ while True:
                                             'anfitrion_rut': rut_usuario,
                                             'sala_id': data_service_salas[opt_sala-1][0]
                                         }
-                                        SendToService('confirmar_reserva', data_confirma_reserva)
+                                        SendToService(SERVICE_CONFIRM_RES, data_confirma_reserva)
 
                                         while True: 
                                             data_service_horario_usado = socket.recv(390)
@@ -161,7 +173,7 @@ while True:
                                             'correo': correo_p,
                                             'reserva_id': data_service_salas[opt_sala-1][0]
                                         }
-                                        SendToService('agregar_participante_en_reserva', data_participante)
+                                        SendToService(SERVICE_ADD_PARTICIPANTE_RESERV, data_participante)
 
                                         while True: 
                                             data_service_horario_usado = socket.recv(390)
@@ -182,11 +194,11 @@ while True:
 
                 elif(opt2 == 2): #Cancela reserva ya guardada en la BD
                     print('Indique la reserva que desea cancelar:')
-                    if GetFromService('reservas_realizadas') == 'OK' and GetFromService('cancelar_reserva') == 'OK':
+                    if GetFromService(SERVICE_RESERV_REALIZADAS) == 'OK' and GetFromService(SERVICE_CANCEL_RESERV) == 'OK':
                             data_reservas_realiz = {
                                 'rut_anfitrion': rut_usuario
                             }
-                            SendToService('reservas_realizadas', data_reservas_realiz)
+                            SendToService(SERVICE_RESERV_REALIZADAS, data_reservas_realiz)
                             
                             while True: 
                                 reservas_realizadas = socket.recv(390)
@@ -198,7 +210,7 @@ while True:
                             data_cancel_reserva = {
                                 'reserva_id': reservas_realizadas[opt_reserva_cancel-1][0]
                             }
-                            SendToService('cancelar_reserva', data_cancel_reserva)
+                            SendToService(SERVICE_CANCEL_RESERV, data_cancel_reserva)
                             while True: 
                                 reservas_realizadas = socket.recv(390)
                                 break
@@ -212,7 +224,7 @@ while True:
                 pass
 #--------------------------Registro--------------------------#
     elif(opt == 2):
-        if(GetFromService('registro_sist_reserva')) == 'OK':
+        if(GetFromService(SERVICE_REGISTER)) == 'OK':
             print('Ingrese los datos para su cuenta:')
             rut = input('RUT: ')
             name = input('Nombre: ')
@@ -227,7 +239,7 @@ while True:
                 'fono': fono,
                 'password': psw
             }
-            SendToService('registro_sist_reserva', data)
+            SendToService(SERVICE_REGISTER, data)
             
             while True: 
                 data_service = socket.recv(390)
