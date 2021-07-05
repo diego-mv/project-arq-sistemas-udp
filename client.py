@@ -148,7 +148,7 @@ while True:
                                             'rut': rut_p,
                                             'nombre': nombre_p,
                                             'correo': correo_p,
-                                            'reserva_id': data_service_salas[opt_sala-1][0]
+                                            'reserva_id': data_service_salas[opt_sala-1][0]                                            
                                         })
                                         print('Participante agregado')
                                 elif(opt3 == 2): #Confirmar reserva
@@ -166,17 +166,21 @@ while True:
                                             data_service_horario_usado = socket.recv(390)
                                             break
                                         #AGREGA A LOS PARTICIPANTES EN LA BD DESPUES DE AGREGAR LA RESERVA EN LA BD
-                                        data_participante = {
-                                            'rut': rut_p,
-                                            'nombre': nombre_p,
-                                            'correo': correo_p,
-                                            'reserva_id': data_service_salas[opt_sala-1][0]
-                                        }
-                                        SendToService(SERVICE_ADD_PARTICIPANTE_RESERV, data_participante)
 
-                                        while True: 
-                                            data_service_horario_usado = socket.recv(390)
-                                            break
+                                        print('Agregando los participantes a la reserva realizada...')
+                                        for i in len(PARTICIPANTES):
+                                            data_participante = {
+                                                'rut': PARTICIPANTES[i]['rut'],
+                                                'nombre': PARTICIPANTES[i]['nombre'],
+                                                'correo': PARTICIPANTES[i]['correo'],
+                                                'reserva_id': data_service_salas[opt_sala-1][0]
+                                            }
+                                            SendToService(SERVICE_ADD_PARTICIPANTE_RESERV, data_participante)
+
+                                            while True: 
+                                                data_service_horario_usado = socket.recv(390)
+                                                break
+
 
                                         print('Reserva realizada, ¡adios!')
                                         menu_conf_reserva = False

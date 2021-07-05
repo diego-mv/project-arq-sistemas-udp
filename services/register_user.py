@@ -28,7 +28,7 @@ socket.send(trans.encode(encoding='UTF-8'))
 print(socket.recv(4090).decode('UTF-8'))
 
 while True: 
-    print("Service 'registro-sist-reserva' is running and waiting connection")
+    print(f"Service '{SERVICE_REGISTER}' is running and waiting connection")
 
     try: 
         while True:
@@ -54,12 +54,12 @@ while True:
                 print('User saved, sending data to client')
                 trans_cmd = SERVICE_REGISTER + 'Success' 
                 trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
-                socket.send(trans_cmd.encode(encoding='UTF-8'))
+                socket.send(trans.encode(encoding='UTF-8'))
             else:
                 print('User already exist')
                 trans_cmd = SERVICE_REGISTER + 'Error'
                 trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
-                socket.send(trans_cmd.encode(encoding='UTF-8'))
+                socket.send(trans.encode(encoding='UTF-8'))
             break
     except:
         ex = sys.exc_info()[0]

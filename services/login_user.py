@@ -28,7 +28,7 @@ socket.send(trans.encode(encoding='UTF-8'))
 print(socket.recv(4090).decode('UTF-8'))
 
 while True: 
-    print("Service 'login-sist-reserva' is running and waiting connection")
+    print(f"Service '{SERVICE_LOGIN}' is running and waiting connection")
 
     try: 
         while True:
@@ -46,18 +46,18 @@ while True:
                 print('User not found')
                 trans_cmd = SERVICE_LOGIN + 'Error'
                 trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
-                socket.send(trans_cmd.encode(encoding='UTF-8'))
+                socket.send(trans.encode(encoding='UTF-8'))
             else:
                 if(password_hash == result_rut[0][4]):
                     print('Login success')
                     trans_cmd = SERVICE_LOGIN + 'Success' 
                     trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
-                    socket.send(trans_cmd.encode(encoding='UTF-8'))
+                    socket.send(trans.encode(encoding='UTF-8'))
                 else:
                     print('Login failed')
                     trans_cmd = SERVICE_LOGIN + 'Error'
                     trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
-                    socket.send(trans_cmd.encode(encoding='UTF-8'))
+                    socket.send(trans.encode(encoding='UTF-8'))
             break
     except:
         ex = sys.exc_info()[0]
