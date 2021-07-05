@@ -49,7 +49,7 @@ while True:
     print('2. Registro')
     print('3. Salir')
     opt = int(input("\n>> "))
-    
+#-----------------------Iniciar sesion--------------------------#
     if(opt == 1):
         if(GetFromService('login_sist_reserva')) == 'OK':
             print('Ingrese sus credenciales:')
@@ -236,7 +236,7 @@ while True:
             print(data_service)
 
             #if register is success else register is error ......
-
+#----------------------------Salir----------------------------#
     elif(opt == 3):
         print('¡Hasta luego!') 
         break
