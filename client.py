@@ -94,6 +94,7 @@ while True:
                         
                         while True: 
                             data_service_salas = socket.recv(390)
+                            data_service_salas = json.loads(data_service_salas[12:])
                             break
                         #--------------------------------------MENU SALAS DISPONIBLES----------------------------------#
                         print('Salas disponibles:')
@@ -112,6 +113,7 @@ while True:
 
                             while True: 
                                 data_service_horario_usado = socket.recv(390)
+                                data_service_salas = data_service_salas[12:]
                                 break
                             #-------------------------------------HORARIOS DISPONIBLES DE UNA SALA EN UN DIA ESPECIFICOS-------------------------#
                             HORARIOS_DISP = []
@@ -162,7 +164,6 @@ while True:
 
                                         while True: 
                                             data_service_horario_usado = socket.recv(390)
-                                            print(data_service)
                                             break
                                         #AGREGA A LOS PARTICIPANTES EN LA BD DESPUES DE AGREGAR LA RESERVA EN LA BD
                                         data_participante = {

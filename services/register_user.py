@@ -12,7 +12,7 @@ PORT = 5000
 socket.connect((SERVER, PORT))
 print(f'Connected on server: {SERVER} port: {PORT}')
 
-conn_bd = sqlite3.connect('project-arq-sist.db')
+conn_bd = sqlite3.connect('projectArqSist.db')
 cur = conn_bd.cursor()
 #------------------------#
 
@@ -54,19 +54,16 @@ while True:
                 print('User saved, sending data to client')
                 trans_cmd = SERVICE_REGISTER + 'Success' 
                 trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
-                socket.send(trans_cmd(encoding='UTF-8'))
+                socket.send(trans_cmd.encode(encoding='UTF-8'))
             else:
                 print('User already exist')
                 trans_cmd = SERVICE_REGISTER + 'Error'
                 trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
-                socket.send(trans_cmd(encoding='UTF-8'))
+                socket.send(trans_cmd.encode(encoding='UTF-8'))
             break
     except:
         ex = sys.exc_info()[0]
-        cur.execute(f'INSERT INTO errors (date_error, information) VALUES({date.today},{ex})')
-        result = cur.fetchall()
-        print(f"Error saved {ex}")
-        conn_bd.commit()
+        print(f"Error: {ex}")
     finally:
             print('Finally')
 
