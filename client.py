@@ -210,9 +210,15 @@ while True:
                             for i in len(reservas_realizadas):
                                 print(f'{i+1}. {reservas_realizadas[i][1]}')
                             opt_reserva_cancel = int(input('>> '))
+                            
+                            for i in len(reservas_realizadas):
+                                if reservas_realizadas[opt_reserva_cancel-1]==reservas_realizadas[i]:
+                                    reserva_id_toCancel = reservas_realizadas[i][0]
+
                             data_cancel_reserva = {
-                                'reserva_id': reservas_realizadas[opt_reserva_cancel-1][0]
+                                'reserva_id': reserva_id_toCancel
                             }
+                            
                             SendToService(SERVICE_CANCEL_RESERV, data_cancel_reserva)
                             while True: 
                                 reservas_realizadas = socket.recv(390)
