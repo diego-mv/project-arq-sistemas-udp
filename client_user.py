@@ -1,82 +1,4 @@
-from getpass import getpass
-import socket
-import json
-
-#------Servicios---------#
-SERVICE_LOGIN = 'lgn01'
-SERVICE_REGISTER = 'rgt01'
-SERVICE_LIST_SALAS = 'sls01'
-SERVICE_HOR_USADO_SALA = 'hus01'
-SERVICE_CONFIRM_RES = 'scr01'
-SERVICE_ADD_PARTICIPANTE_RESERV = 'apr01'
-SERVICE_RESERV_REALIZADAS = 'rer01'
-SERVICE_CANCEL_RESERV = 'car01'
-
-#-------CONNECTION-------#
-socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-SERVER = '200.14.84.235'
-PORT = 5000
-socket.connect((SERVER, PORT))
-print(f'Connected on server: {SERVER} port: {PORT}')
-
-#------------------------#
-
-def generate_transaction_lenght(trans_lenght):
-    trans_lenght = str(trans_lenght)
-    max_char = 5 #cantidad maxima de caracteres permitida en el bus
-    return trans_lenght.rjust(max_char, '0') #string de la transaccion con ceros a la izq para completar largo de 5
-
-def SendToService(name_service, data):
-    dataJson = json.dumps(data, default=str)
-    trans_cmd = name_service + dataJson
-    trans = generate_transaction_lenght(len(trans_cmd)) + str(trans_cmd)
-    socket.send(trans.encode(encoding='UTF-8'))
-
-def GetFromService(name_service): #Verifica si servicio esta UP (?)
-    trans_cmd = 'getsv' + name_service
-    trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
-    socket.send(trans.encode(encoding='UTF-8'))
-    status = socket.recv(4090).decode('UTF-8')[10:12]
-    print(status)
-    return status
-
-rut_usuario = ''
-HORARIOS = [
-'09:00 - 10:00',
-'10:00 - 11:00',
-'11:00 - 12:00',
-'12:00 - 13:00',
-'13:00 - 14:00',
-'14:00 - 15:00',
-'15:00 - 16:00',
-'16:00 - 17:00'
-]
-
-print('•• ¡Bienvenido al sistema de reserva de espacios! ••')
-while True:
-    print('Que desea hacer:')
-    print('1. Iniciar Sesión')
-    print('2. Registro')
-    print('3. Salir')
-    opt = int(input("\n>> "))
-#-----------------------Iniciar sesion--------------------------#
-    if(opt == 1):
-        if(GetFromService(SERVICE_LOGIN)) == 'OK':
-            print('Ingrese sus credenciales:')
-            rut = input('RUT: ')
-            psw = password = getpass('Contraseña: ')
-            data_login = { 
-                'rut': rut,
-                'password': psw
-            }
-            SendToService(SERVICE_LOGIN, data_login)
-            
-            while True: 
-                data_service = socket.recv(390)
-                break
-
-            if data_service[14:len(data_service)-1] == 'SuccessUSER': #Si el servicio login es exitoso: data_service = b'00000lgn01OKSuccessUSER' Para Rol=Usuario
-                rut_usuario = data_login['rut']
+rut_usuario = data_login['rut']
                 print('Inicio de sesión exitoso.')
                 #---------------------------------MENU DESPUES DE LOGGEO-----------------------------------#
                 print('Qué desea hacer:')
@@ -218,7 +140,7 @@ while True:
                             data_cancel_reserva = {
                                 'reserva_id': reserva_id_toCancel
                             }
-                            
+
                             SendToService(SERVICE_CANCEL_RESERV, data_cancel_reserva)
                             while True: 
                                 reservas_realizadas = socket.recv(390)
@@ -227,44 +149,3 @@ while True:
                 else:
                     print('¡ADIOS!')
                     pass
-
-            elif data_service[14:len(data_service)-1] == 'SuccessADMIN': #Si el servicio login es exitoso para Rol=Admin
-                print("Hello Admin")
-            elif data_service[14:len(data_service)-1] == 'SuccessRECEPTION': #Si el servicio login es exitoso para Rol=Admin
-                print("Hello Reception")
-
-            else:
-                print('No se pudo iniciar sesión, intente nuevamente.')
-                pass
-#--------------------------Registro--------------------------#
-    elif(opt == 2):
-        if(GetFromService(SERVICE_REGISTER)) == 'OK':
-            print('Ingrese los datos para su cuenta:')
-            rut = input('RUT: ')
-            name = input('Nombre: ')
-            email = input('Email: ')
-            fono = input('Teléfono: ')
-            psw = password = getpass('Contraseña: ')
-
-            data = {
-                'rut': rut,
-                'nombre': name,
-                'correo': email,
-                'fono': fono,
-                'password': psw
-            }
-            SendToService(SERVICE_REGISTER, data)
-            
-            while True: 
-                data_service = socket.recv(390)
-                print(data_service)
-                break
-            print(data_service)
-
-            #if register is success else register is error ......
-#----------------------------Salir----------------------------#
-    elif(opt == 3):
-        print('¡Hasta luego!') 
-        break
-    else:
-        print('¡UPS! Seleccione una opción válida.')

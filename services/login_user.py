@@ -49,10 +49,26 @@ while True:
                 socket.send(trans.encode(encoding='UTF-8'))
             else:
                 if(password_hash == result_rut[0][4]):
-                    print('Login success')
-                    trans_cmd = SERVICE_LOGIN + 'Success' 
-                    trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
-                    socket.send(trans.encode(encoding='UTF-8'))
+                    if(result_rut[0][6] == 0):
+                        print('Login success')
+                        trans_cmd = SERVICE_LOGIN + 'SuccessADMIN' 
+                        trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
+                        socket.send(trans.encode(encoding='UTF-8'))
+                    elif(result_rut[0][6] == 1):
+                        print('Login success')
+                        trans_cmd = SERVICE_LOGIN + 'SuccessUSER' 
+                        trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
+                        socket.send(trans.encode(encoding='UTF-8'))
+                    elif(result_rut[0][6] == 2):
+                        print('Login success')
+                        trans_cmd = SERVICE_LOGIN + 'SuccessRECEPTION' 
+                        trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
+                        socket.send(trans.encode(encoding='UTF-8'))
+                    else:
+                        print('Login failed')
+                        trans_cmd = SERVICE_LOGIN + 'Error'
+                        trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
+                        socket.send(trans.encode(encoding='UTF-8'))
                 else:
                     print('Login failed')
                     trans_cmd = SERVICE_LOGIN + 'Error'
