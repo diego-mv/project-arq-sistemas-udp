@@ -41,14 +41,27 @@ while True:
             correo_p = data['correo']
             reserva_id = data['reserva_id']
 
-            cur.execute(f'INSERT INTO invitados (rut,nombre,correo,asistio,reserva_id) VALUES ({rut_p}, {nombre_p}, {correo_p}, 0, {reserva_id});')
-            conn_bd.commit()
-            print(f'Invitado agregado en reserva {reserva_id}')
+            cur.execute(f'SELECT COUNT(rut) FROM invitados WHERE reserva_id={reserva_id};')
+            cant_invitados = cur.fetchall()
+            cant_invitados = int(cant_invitados[0][0]) + 1 #se le suma 1 a los invitados para considerar al anfitrion
+            
+            cur.execute(f'SELECT sala_id FROM reserva WHERE id={reserva_id};')
+            sala_id = cur.fetchall()
 
-            trans_cmd = SERVICE_ADD_PARTICIPANTE_RESERV + 'Success' 
-            trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
-            socket.send(trans.encode(encoding='UTF-8'))
-
+            cur.execute(f'SELECT aforo FROM sala WHERE id={sala_id};')
+            aforo_max_sala = cur.fetchall()
+            
+            if(int(aforo_max_sala) < cant_invitados):
+                cur.execute(f'INSERT INTO invitados (rut,nombre,correo,asistio,reserva_id) VALUES ({rut_p}, {nombre_p}, {correo_p}, 0, {reserva_id});')
+                conn_bd.commit()
+                print(f'Invitado agregado en reserva {reserva_id}')
+                trans_cmd = SERVICE_ADD_PARTICIPANTE_RESERV + 'Success' 
+                trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
+                socket.send(trans.encode(encoding='UTF-8'))
+            else:
+                trans_cmd = SERVICE_ADD_PARTICIPANTE_RESERV + 'Error' 
+                trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
+                socket.send(trans.encode(encoding='UTF-8'))
     except:
         ex = sys.exc_info()[0]
         print(f"Error: {ex}")
