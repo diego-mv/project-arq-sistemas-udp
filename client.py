@@ -11,6 +11,7 @@ SERVICE_CONFIRM_RES = 'scr01'
 SERVICE_ADD_PARTICIPANTE_RESERV = 'apr01'
 SERVICE_RESERV_REALIZADAS = 'rer01'
 SERVICE_CANCEL_RESERV = 'car01'
+SERVICE_CONFIRM_INV = 'cap01'
 
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -231,7 +232,59 @@ while True:
             elif data_service[14:len(data_service)-1] == 'SuccessADMIN': #Si el servicio login es exitoso para Rol=Admin
                 print("Hello Admin")
             elif data_service[14:len(data_service)-1] == 'SuccessRECEPTION': #Si el servicio login es exitoso para Rol=Admin
-                print("Hello Reception")
+                print('Inicio de sesión exitoso.')
+                print("Bienvenid@ Recepción")
+                print('1. Confirmar asistencia de invitados.')
+                print('2. Cancelar reunión.')
+                opt_rec = int(input('>> '))
+
+                if(opt_rec == 1): #CONFIRMAR ASISTENCIA INVITADO
+                    rut = input('Ingrese el rut del invitado\n>> ')
+                    reserva_id = input('Ingrese el codigo de la reserva\n>> ')
+                    
+                    if GetFromService(SERVICE_CONFIRM_INV) == 'OK':
+                        data_inv = { 
+                            'rut' : rut,
+                            'reserva_id' : reserva_id
+                        }
+                        SendToService(SERVICE_LIST_SALAS, data_inv)
+                        
+                        while True: 
+                            data_service_salas = socket.recv(390)
+                            data_service_salas = json.loads(data_service_salas[12:])
+                            break
+                        
+                        print(f'El invitado {rut} ha sido ingresado con éxito.')
+                    else:
+                        print('Servicio no disponible.')
+                elif(opt_rec == 2): #CANCELAR RESERVA
+                    rut = input('Ingrese el rut del anfitrión\n>> ')
+                    
+                    if GetFromService(SERVICE_RESERV_REALIZADAS) == 'OK' and GetFromService(SERVICE_CANCEL_RESERV) == 'OK':
+                        SendToService(SERVICE_RESERV_REALIZADAS, data_reservas_realiz)
+                        while True: 
+                            reservas_realizadas = socket.recv(390)
+                            break
+                        
+                        for i in len(reservas_realizadas):
+                            print(f'{i+1}. {reservas_realizadas[i][1]}')
+                        opt_reserva_cancel_rec = int(input('>> '))
+                        
+                        for i in len(reservas_realizadas):
+                            if reservas_realizadas[opt_reserva_cancel_rec-1]==reservas_realizadas[i]:
+                                reserva_id_toCancel = reservas_realizadas[i][0]
+                        data_cancel_reserva = {
+                            'reserva_id': reserva_id_toCancel
+                        }
+                        
+                        SendToService(SERVICE_CANCEL_RESERV, data_cancel_reserva)
+                        while True: 
+                            reservas_realizadas = socket.recv(390)
+                            break
+                        print('Reserva cancelada.')
+                    else:
+                        print('Servicio no disponible.')
+                        
 
             else:
                 print('No se pudo iniciar sesión, intente nuevamente.')

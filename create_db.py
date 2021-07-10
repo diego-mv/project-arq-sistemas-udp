@@ -1,6 +1,6 @@
 import sqlite3
 
-conn_bd = sqlite3.connect('project-arq-sist.db')
+conn_bd = sqlite3.connect('projectArqSist.db')
 cur = conn_bd.cursor()
 
 cur.execute('CREATE TABLE Rol(id int PRIMARY KEY AUTOINCREMENT, nombre varchar(50));')
