@@ -12,6 +12,8 @@ SERVICE_ADD_PARTICIPANTE_RESERV = 'apr01'
 SERVICE_RESERV_REALIZADAS = 'rer01'
 SERVICE_CANCEL_RESERV = 'car01'
 SERVICE_CONFIRM_INV = 'cap01'
+SERVICE_NUEVA_SALA = 'nsa01'
+SERVICE_DELETE_SALA = 'bsa01'
 
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -225,13 +227,82 @@ while True:
                                 reservas_realizadas = socket.recv(390)
                                 break
                             print('Reserva cancelada.')
+                    else: 
+                        print('Servicio no disponible.')
                 else:
                     print('¡ADIOS!')
                     pass
 
             elif data_service[14:len(data_service)-1] == 'SuccessADMIN': #Si el servicio login es exitoso para Rol=Admin
-                print("Hello Admin")
+                rut_usuario = data_login['rut']
+                while True:
+                    print("Bienvenid@ Admin")
+                    print('Que desea hacer:')
+                    print('1. Realizar trazabilidad de contactos estrechos')
+                    print('2. Crear sala')
+                    print('3. Eliminar sala')
+                    print('4. Salir')
+                    opt_admin = int(input('>> '))
+
+                    if(opt_admin == 1):
+                        print('trazabilidad') #FALTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                    elif(opt_admin == 2):
+                        if GetFromService(SERVICE_NUEVA_SALA) == 'OK':
+                            ubicacion = input('Ingrese la ubicación de la nueva sala\n>> ')
+                            aforo = input('Ingrese el aforo máximo de la nueva sala\n>> ')
+                            data_nueva_sala = { 
+                                'ubicacion' : ubicacion,
+                                'aforo' : aforo
+                            }
+                            SendToService(SERVICE_NUEVA_SALA, data_inv)
+
+                            while True: 
+                                data_service_salas = socket.recv(390)
+                                data_service_salas = json.loads(data_service_salas[12:])
+                                break
+                            print('Sala creada.')
+                        else:
+                            print('Servicio no disponible')
+
+                    elif(opt_admin == 3):
+                        if GetFromService(SERVICE_LIST_SALAS) == 'OK' and GetFromService(SERVICE_DELETE_SALA) == 'OK':
+                            data_list_sala = { 
+                                'rut' : rut_usuario
+                            }
+                            SendToService(SERVICE_LIST_SALAS, data_list_sala)
+
+                            while True: 
+                                data_service_salas = socket.recv(390)
+                                data_service_salas = json.loads(data_service_salas[12:])
+                                break
+                            #--------------------------------------MENU SALAS DISPONIBLES----------------------------------#
+                            print('Salas disponibles:')
+                            for i in len(data_service_salas):
+                                print(f'{i+1}. {data_service_salas[1]} | Aforo permitido: {data_service_salas[2]}')
+
+                            opt_sala_admin = int(input('>> '))
+                            
+                            data_sala_delete = {
+                                'id_sala': data_service_salas[opt_sala-1][0], 
+                            }
+                            SendToService(SERVICE_DELETE_SALA, data_sala_delete)
+                            while True: 
+                                data_service_sala = socket.recv(390)
+                                data_service_sala = json.loads(data_service_salas[12:])
+                                break
+                            print('Sala eliminada.')
+
+                        else:
+                            print('Servicio no disponible')
+                    elif(opt_admin == 4):
+                        print('¡Adios!')
+                        break
+                    else:
+                        print('Ingrese una opción válida')
+
+                
             elif data_service[14:len(data_service)-1] == 'SuccessRECEPTION': #Si el servicio login es exitoso para Rol=Admin
+                rut_usuario = data_login['rut']
                 print('Inicio de sesión exitoso.')
                 print("Bienvenid@ Recepción")
                 print('1. Confirmar asistencia de invitados.')
@@ -284,8 +355,6 @@ while True:
                         print('Reserva cancelada.')
                     else:
                         print('Servicio no disponible.')
-                        
-
             else:
                 print('No se pudo iniciar sesión, intente nuevamente.')
                 pass
