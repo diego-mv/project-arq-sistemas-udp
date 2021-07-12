@@ -14,6 +14,7 @@ SERVICE_CANCEL_RESERV = 'car01'
 SERVICE_CONFIRM_INV = 'cap01'
 SERVICE_NUEVA_SALA = 'nsa01'
 SERVICE_DELETE_SALA = 'bsa01'
+SERVICE_TRAZABILIDAD = 'tra01'
 
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -244,7 +245,10 @@ while True:
                     opt_admin = int(input('>> '))
 
                     if(opt_admin == 1):
-                        print('trazabilidad') #FALTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                        if GetFromService(SERVICE_TRAZABILIDAD) == 'OK':
+                            print('trazab')
+                        else:
+                            print('Servicio no disponible')
                     elif(opt_admin == 2):
                         if GetFromService(SERVICE_NUEVA_SALA) == 'OK':
                             ubicacion = input('Ingrese la ubicación de la nueva sala\n>> ')
