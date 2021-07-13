@@ -39,7 +39,7 @@ while True:
             rut = data['rut']
             password_hash = data['password']
             
-            cur.execute(f'SELECT rut FROM usuario WHERE rut={rut}')
+            cur.execute(f'SELECT rut FROM usuario WHERE rut=?',(rut))
             result_rut = cur.fetchall()
 
             if(len(result_rut[0]) == 0):

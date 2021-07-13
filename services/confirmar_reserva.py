@@ -40,7 +40,7 @@ while True:
             anfitrion_id = data['anfitrion_rut']
             sala_id = data['sala_id']
     	    #estado 1: Reserva realizada
-            cur.execute(f'INSERT INTO reserva (inicia,termina,anfitrion_id, sala_id, estado_id) VALUES ({inicia}, {termina}, {anfitrion_id}, {sala_id}, 1);')
+            cur.execute(f'INSERT INTO reserva (inicia,termina,anfitrion_id, sala_id, estado_id) VALUES (?,?,?,?, 1);',(inicia, termina, anfitrion_id, sala_id))
             conn_bd.commit()
             print('Reserva realizada')
 

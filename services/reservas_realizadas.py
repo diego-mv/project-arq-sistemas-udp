@@ -39,13 +39,13 @@ while True:
             print(f"Received data: {data}")
             rut = data['rut']
 
-            cur.execute(f'SELECT * FROM reserva WHERE anfitrion_id={rut} AND estado_id=1;')
+            cur.execute(f'SELECT * FROM reserva WHERE anfitrion_id=? AND estado_id=1;',(rut))
             result = cur.fetchall()
             conn_bd.commit()
             result_reservas = []
 
             for i in len(result):
-                cur.execute(f'SELECT ubicacion FROM sala WHERE id={result[i][4]};')
+                cur.execute(f'SELECT ubicacion FROM sala WHERE id=?;',({result[i][4]}))
                 result_sala = cur.fetchall()
                 result_reservas.append(
                     {
