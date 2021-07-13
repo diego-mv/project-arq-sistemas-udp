@@ -38,7 +38,7 @@ while True:
             reserva_id = data['reserva_id']
             
     	    #estado 2: Reserva cancelada
-            cur.execute(f'UPDATE reserva SET estado_id=2 WHERE id=?;',(reserva_id))
+            cur.execute(f'UPDATE reserva SET estado_id=2 WHERE id=?;',(reserva_id,))
             conn_bd.commit()
             print('Reserva cambiada a estado cancelada')
 

@@ -38,7 +38,7 @@ while True:
             print(f"Received data: {data}")
             rut = data['rut']
 
-            cur.execute(f'SELECT rut FROM usuario WHERE rut=?', (rut))
+            cur.execute(f'SELECT rut FROM usuario WHERE rut=?', (rut,))
             result_rut = cur.fetchall()
 
             if(len(result_rut) == 0):
@@ -47,7 +47,7 @@ while True:
                 correo = data['correo']
                 fono = data['fono']
 
-                cur.execute(f'INSERT INTO usuario (rut, nombre, correo, fono, pwhash, rol_id) VALUES (?,?,?,?,?,2);',(rut,nombre,correo,fono,password_hash))
+                cur.execute(f'INSERT INTO usuario (rut, nombre, correo, fono, pwhash, rol_id) VALUES (?,?,?,?,?,2);',(rut,nombre,correo,fono,password_hash,))
               
                 conn_bd.commit()
 

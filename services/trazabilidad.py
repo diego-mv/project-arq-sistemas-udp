@@ -47,24 +47,24 @@ while True:
             contactos_estrechos = []
             invitados = []
 
-            cur.execute(f'SELECT reserva_id FROM invitados WHERE rut=? AND asistio=1',(rut_contagiado))
+            cur.execute(f'SELECT reserva_id FROM invitados WHERE rut=? AND asistio=1',(rut_contagiado,))
             res = cur.fetchall()
             id_reservas_contagiado = []
             for i in range(len(res)):
                 id_reservas_contagiado.append(res[i][0])
             
-            cur.execute(f'SELECT * FROM reserva  WHERE id IN {tuple(id_reservas_contagiado)} AND ((CAST(SUBSTR(inicia,4,5) AS INTEGER)>=? AND CAST(SUBSTR(inicia,1,2) AS INTEGER)<=?) OR (CAST(SUBSTR(inicia,4,5) AS INTEGER)=? AND CAST(SUBSTR(inicia,1,2) AS INTEGER)>=?))',(mes,dia,mes,dia))
+            cur.execute(f'SELECT * FROM reserva  WHERE id IN {tuple(id_reservas_contagiado)} AND ((CAST(SUBSTR(inicia,4,5) AS INTEGER)>=? AND CAST(SUBSTR(inicia,1,2) AS INTEGER)<=?) OR (CAST(SUBSTR(inicia,4,5) AS INTEGER)=? AND CAST(SUBSTR(inicia,1,2) AS INTEGER)>=?))',(mes,dia,mes,dia,))
             reservas_recientes = cur.fetchall()
             
             for i in range(len(reservas_recientes)):
-                cur.execute(f'SELECT * FROM usuario WHERE rut=?;',(reservas_recientes[i][3]))
+                cur.execute(f'SELECT * FROM usuario WHERE rut=?;',(reservas_recientes[i][3],))
                 user = cur.fetchall()
                 contactos_estrechos.append({
                     'rut': user[0][0], 
                     'nombre': user[0][1],
                     'email': user[0][2],
                 })
-                cur.execute(f'SELECT * FROM invitados WHERE reserva_id=?;',(reservas_recientes[i][0]))
+                cur.execute(f'SELECT * FROM invitados WHERE reserva_id=?;',(reservas_recientes[i][0],))
                 invitados += cur.fetchall()
             
             for i in range(len(invitados)):

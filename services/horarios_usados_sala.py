@@ -40,7 +40,7 @@ while True:
             id_sala = data['id_sala']
             fecha_req = data['fecha_req']
 
-            cur.execute(f'SELECT * FROM reserva WHERE sala_id=? AND SUBSTRING(inicia,1,10)=?;',(id_sala, fecha_req))
+            cur.execute(f'SELECT * FROM reserva WHERE sala_id=? AND SUBSTRING(inicia,1,10)=?;',(id_sala, fecha_req,))
             result_salas = cur.fetchall()
             horarios_usados = []
             for i in len(result_salas):

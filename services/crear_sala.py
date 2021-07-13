@@ -38,7 +38,7 @@ while True:
             ubicacion = data['ubicacion']
             aforo = data['aforo']
                         
-            cur.execute(f'INSERT INTO sala VALUES (?,?);',(ubicacion, aforo))
+            cur.execute(f'INSERT INTO sala VALUES (?,?);',(ubicacion, aforo,))
             conn_bd.commit()
             print('Sala creada')
 

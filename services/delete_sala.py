@@ -38,7 +38,7 @@ while True:
             
             sala_id = data['id_sala']
                         
-            cur.execute(f'DELETE FROM sala WHERE id=?;',(sala_id))
+            cur.execute(f'DELETE FROM sala WHERE id=?;',(sala_id,))
             conn_bd.commit()
             print('Sala eliminada')
 

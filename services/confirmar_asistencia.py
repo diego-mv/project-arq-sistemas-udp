@@ -39,7 +39,7 @@ while True:
             rut = data['rut']
             reserva_id = data['reserva_id']
                         
-            cur.execute(f'UPDATE invitados SET asistio=1 WHERE rut=? AND reserva=?;',(rut, reserva_id))
+            cur.execute(f'UPDATE invitados SET asistio=1 WHERE rut=? AND reserva=?;',(rut, reserva_id,))
             conn_bd.commit()
             print('Reserva realizada')
 
