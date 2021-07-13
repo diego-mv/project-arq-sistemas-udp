@@ -7,7 +7,7 @@ import socket
 import sqlite3
 import datetime
 
-SERVICE_TRAZABILIDAD = 'tra11'
+SERVICE_TRAZABILIDAD = 'tra97'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -50,16 +50,19 @@ while True:
 
             cur.execute(f'SELECT reserva_id FROM invitados WHERE rut=? AND asistio=1',(rut_contagiado,))
             res = cur.fetchall()
+            print(res)
             id_reservas_contagiado = []
             for i in range(len(res)):
                 id_reservas_contagiado.append(res[i][0])
             
             cur.execute(f'SELECT * FROM reserva  WHERE id IN {tuple(id_reservas_contagiado)} AND ((CAST(SUBSTR(inicia,4,5) AS INTEGER)>=? AND CAST(SUBSTR(inicia,1,2) AS INTEGER)<=?) OR (CAST(SUBSTR(inicia,4,5) AS INTEGER)=? AND CAST(SUBSTR(inicia,1,2) AS INTEGER)>=?))',(mes,dia,mes,dia,))
             reservas_recientes = cur.fetchall()
+            print(reservas_recientes)
             
             for i in range(len(reservas_recientes)):
                 cur.execute(f'SELECT * FROM usuario WHERE rut=?;',(reservas_recientes[i][3],))
                 user = cur.fetchall()
+                print(user)
                 contactos_estrechos.append({
                     'rut': user[0][0], 
                     'nombre': user[0][1],
@@ -67,6 +70,7 @@ while True:
                 })
                 cur.execute(f'SELECT * FROM invitados WHERE reserva_id=?;',(reservas_recientes[i][0],))
                 invitados += cur.fetchall()
+                print(invitados)
             
             for i in range(len(invitados)):
                 contactos_estrechos.append({

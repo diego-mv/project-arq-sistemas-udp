@@ -15,7 +15,7 @@ SERVICE_CANCEL_RESERV = 'car11'
 SERVICE_CONFIRM_INV = 'cap11'
 SERVICE_NUEVA_SALA = 'nsa11'
 SERVICE_DELETE_SALA = 'bsa11'
-SERVICE_TRAZABILIDAD = 'tra11'
+SERVICE_TRAZABILIDAD = 'tra97'
 
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -61,9 +61,9 @@ while True:
     print('1. Iniciar Sesión')
     print('2. Registro')
     print('3. Salir')
-    opt = int(input("\n>> "))
+    opt = (input("\n>> "))
 #-----------------------Iniciar sesion--------------------------#
-    if(opt == 1):
+    if(opt == '1'):
         if(GetFromService(SERVICE_LOGIN)) == 'OK':
             print('Ingrese sus credenciales:')
             rut = input('RUT: ')
@@ -88,9 +88,9 @@ while True:
                     print('1. Realizar reserva de sala')
                     print('2. Cancelar reserva')
                     print('3. Salir')
-                    opt2 = int(input('>> '))
+                    opt2 = (input('>> '))
 
-                    if(opt2 == 1): #realizar reserva
+                    if(opt2 == '1'): #realizar reserva
                         if GetFromService(SERVICE_LIST_SALAS) == 'OK':
                             data_list_sala = { 
                                 'rut' : rut_usuario
@@ -138,9 +138,9 @@ while True:
                                     print('1. Agregar participante a la reunion')
                                     print('2. Confirmar reserva (no puede ingresar más participantes)')
                                     print('3. No realizar reserva y salir')
-                                    opt3 = int(input('>> '))
+                                    opt3 = (input('>> '))
 
-                                    if(opt3 == 1): #Ingresar participante
+                                    if(opt3 =='1'): #Ingresar participante
                                         print('Ingrese datos del participante:')
                                         rut_p = input('RUT: ')
                                         nombre_p = input('Nombre: ')
@@ -155,7 +155,7 @@ while True:
                                                 'correo': correo_p,                                         
                                             })
                                             print('Participante agregado')
-                                    elif(opt3 == 2): #Confirmar reserva
+                                    elif(opt3 == '2'): #Confirmar reserva
                                         if GetFromService(SERVICE_CONFIRM_RES) == 'OK' and GetFromService(SERVICE_ADD_PARTICIPANTE_RESERV) == 'OK':
                                             print('Confirmando reserva...')
                                             data_confirma_reserva = {
@@ -200,7 +200,7 @@ while True:
                         else: 
                             print('Servicio de reserva no disponible')
 
-                    elif(opt2 == 2): #Cancela reserva ya guardada en la BD
+                    elif(opt2 == '2'): #Cancela reserva ya guardada en la BD
                         
                         if GetFromService(SERVICE_RESERV_REALIZADAS) == 'OK' and GetFromService(SERVICE_CANCEL_RESERV) == 'OK':
                                 data_reservas_realiz = {
@@ -232,7 +232,7 @@ while True:
                                     print('Sin reservas')
                         else: 
                             print('Servicio no disponible.')
-                    elif(opt2 == 3):
+                    elif(opt2 == '3'):
                         print('ADIOS!')
                         userLogged = False
                     else:
@@ -402,7 +402,7 @@ while True:
                 print('No se pudo iniciar sesión, intente nuevamente.')
                 pass
 #--------------------------Registro--------------------------#
-    elif(opt == 2):
+    elif(opt == '2'):
         if(GetFromService(SERVICE_REGISTER)) == 'OK':
             print('Ingrese los datos para su cuenta:')
             rut = input('RUT: ')
@@ -426,7 +426,7 @@ while True:
             print('Registro exitoso, inicie sesion')
             #if register is success else register is error ......
 #----------------------------Salir----------------------------#
-    elif(opt == 3):
+    elif(opt == '3'):
         print('¡Hasta luego!') 
         break
     else:
