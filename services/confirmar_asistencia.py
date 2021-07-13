@@ -3,6 +3,7 @@ import sys
 from datetime import date
 import socket
 import sqlite3
+import traceback
 
 SERVICE_CONFIRM_RES = 'cap01' #confirmar-asistencia-participantes
 #-------CONNECTION-------#
@@ -49,7 +50,7 @@ while True:
     except sqlite3.Error as er:
         print('SQLite error: %s' % (' '.join(er.args)))
     except:
-        ex = sys.exc_info()[0]
+        ex = traceback.print_exc()
         print(f"Error: {ex}")
     finally:
         print('Finally')

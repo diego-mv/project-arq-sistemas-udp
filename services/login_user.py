@@ -1,10 +1,11 @@
 from os import stat
+import traceback
 from datetime import date
 import sys
 import socket
 import sqlite3
 
-SERVICE_LOGIN = 'log10'
+SERVICE_LOGIN = 'log11'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -42,7 +43,7 @@ while True:
             cur.execute(f'SELECT * FROM usuario WHERE rut=?',(rut,))
             result_rut = cur.fetchall()
 
-            if(len(result_rut[0][0]) == 0):
+            if(len(result_rut)==0):
                 print('User not found')
                 trans_cmd = SERVICE_LOGIN + 'Error'
                 trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
@@ -78,7 +79,7 @@ while True:
     except sqlite3.Error as er:
         print('SQLite error: %s' % (' '.join(er.args)))
     except:
-        ex = sys.exc_info()[0]
+        ex = traceback.print_exc()
         print(f"Error: {ex}")
     finally:
             print('Finally')

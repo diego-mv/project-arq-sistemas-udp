@@ -2,9 +2,10 @@ from os import stat
 from datetime import date
 import sys
 import socket
+import traceback
 import sqlite3
 
-SERVICE_REGISTER = 'rgt10'
+SERVICE_REGISTER = 'rgt11'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -64,7 +65,7 @@ while True:
     except sqlite3.Error as er:
         print('SQLite error: %s' % (' '.join(er.args)))
     except:
-        ex = sys.exc_info()[0]
+        ex = traceback.print_exc()
         print(f"Error: {ex}")
     finally:
         print('Finally')

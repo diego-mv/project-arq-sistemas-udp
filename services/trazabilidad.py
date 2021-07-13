@@ -1,6 +1,7 @@
 from os import stat
 import sys
 import json
+import traceback
 from datetime import date
 import socket
 import sqlite3
@@ -81,7 +82,7 @@ while True:
     except sqlite3.Error as er:
         print('SQLite error: %s' % (' '.join(er.args)))
     except:
-        ex = sys.exc_info()[0]
+        ex = traceback.print_exc()
         print(f"Error: {ex}")
     finally:
         print('Finally')

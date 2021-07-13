@@ -3,6 +3,7 @@ from os import stat
 from datetime import date
 import socket
 import sqlite3
+import traceback
 import sys
 
 SERVICE_LIST_SALAS = 'sls01'
@@ -48,7 +49,7 @@ while True:
     except sqlite3.Error as er:
         print('SQLite error: %s' % (' '.join(er.args)))
     except:
-        ex = sys.exc_info()[0]
+        ex = traceback.print_exc()
         print(f"Error: {ex}")
     finally:
         print('Finally')
