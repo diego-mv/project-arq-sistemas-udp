@@ -9,7 +9,7 @@ SERVICE_REGISTER = 'rgt11'
 SERVICE_LIST_SALAS = 'sls11'
 SERVICE_HOR_USADO_SALA = 'hus11'
 SERVICE_CONFIRM_RES = 'scr11'
-SERVICE_ADD_PARTICIPANTE_RESERV = 'apr97'
+SERVICE_ADD_PARTICIPANTE_RESERV = 'apr94'
 SERVICE_RESERV_REALIZADAS = 'rer11'
 SERVICE_CANCEL_RESERV = 'car11'
 SERVICE_CONFIRM_INV = 'cap11'
@@ -172,14 +172,13 @@ while True:
                                                 break
                                             print(f"CODIGO DE LA RESERVA: {data_service_confirm_res}")
                                             #AGREGA A LOS PARTICIPANTES EN LA BD DESPUES DE AGREGAR LA RESERVA EN LA BD
-                                            id_nueva_reserva = str(data_service_confirm_res)[21:len(str(data_service_confirm_res))-1]
                                             print('Agregando los participantes a la reserva realizada...')
                                             for i in range(len(PARTICIPANTES)):
                                                 data_participante = {
                                                     'rut': PARTICIPANTES[i]['rut'],
                                                     'nombre': PARTICIPANTES[i]['nombre'],
                                                     'correo': PARTICIPANTES[i]['correo'],
-                                                    'reserva_id': id_nueva_reserva
+                                                    'reserva_id': data_service_confirm_res
                                                 }
                                                 SendToService(SERVICE_ADD_PARTICIPANTE_RESERV, data_participante)
 
