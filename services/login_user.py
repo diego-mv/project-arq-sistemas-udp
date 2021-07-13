@@ -5,7 +5,7 @@ import sys
 import socket
 import sqlite3
 
-SERVICE_LOGIN = 'log24'
+SERVICE_LOGIN = 'log26'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
