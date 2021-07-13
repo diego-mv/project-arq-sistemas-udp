@@ -5,7 +5,7 @@ import socket
 import sqlite3
 import traceback
 
-SERVICE_CONFIRM_RES = 'cap01' #confirmar-asistencia-participantes
+SERVICE_CONFIRM_RES = 'cap02' #confirmar-asistencia-participantes
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -39,14 +39,25 @@ while True:
             
             rut = data['rut']
             reserva_id = data['reserva_id']
-                        
-            cur.execute(f'UPDATE invitados SET asistio=1 WHERE rut=? AND reserva=?;',(rut, reserva_id,))
-            conn_bd.commit()
-            print('Reserva realizada')
 
-            trans_cmd = SERVICE_CONFIRM_RES + 'Success' 
-            trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
-            socket.send(trans.encode(encoding='UTF-8'))
+            cur.execute('SELECT rut FROM invitados WHERE rut=?',(rut,))
+            inv = cur.fetchone()
+
+            cur.execute('SELECT id FROM reserva WHERE id=?',(reserva_id,))
+            res = cur.fetchone()
+
+            if len(inv)!=0 and len(res)!=0:
+                cur.execute(f'UPDATE invitados SET asistio=1 WHERE rut=? AND reserva=?;',(rut, reserva_id,))
+                conn_bd.commit()
+                print('Reserva realizada')
+
+                trans_cmd = SERVICE_CONFIRM_RES + 'Success' 
+                trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
+                socket.send(trans.encode(encoding='UTF-8'))
+            else:
+                trans_cmd = SERVICE_CONFIRM_RES + 'Error' 
+                trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
+                socket.send(trans.encode(encoding='UTF-8'))
     except sqlite3.Error as er:
         print('SQLite error: %s' % (' '.join(er.args)))
     except:

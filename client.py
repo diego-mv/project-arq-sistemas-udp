@@ -4,18 +4,18 @@ import socket
 import json
 
 #------Servicios---------#
-SERVICE_LOGIN = 'log01'
-SERVICE_REGISTER = 'rgt01'
-SERVICE_LIST_SALAS = 'sls01'
-SERVICE_HOR_USADO_SALA = 'hus01'
-SERVICE_CONFIRM_RES = 'scr01'
-SERVICE_ADD_PARTICIPANTE_RESERV = 'apr01'
-SERVICE_RESERV_REALIZADAS = 'rer01'
-SERVICE_CANCEL_RESERV = 'car01'
-SERVICE_CONFIRM_INV = 'cap01'
-SERVICE_NUEVA_SALA = 'nsa01'
-SERVICE_DELETE_SALA = 'bsa01'
-SERVICE_TRAZABILIDAD = 'tra01'
+SERVICE_LOGIN = 'log02'
+SERVICE_REGISTER = 'rgt02'
+SERVICE_LIST_SALAS = 'sls02'
+SERVICE_HOR_USADO_SALA = 'hus02'
+SERVICE_CONFIRM_RES = 'scr02'
+SERVICE_ADD_PARTICIPANTE_RESERV = 'apr02'
+SERVICE_RESERV_REALIZADAS = 'rer02'
+SERVICE_CANCEL_RESERV = 'car02'
+SERVICE_CONFIRM_INV = 'cap02'
+SERVICE_NUEVA_SALA = 'nsa02'
+SERVICE_DELETE_SALA = 'bsa02'
+SERVICE_TRAZABILIDAD = 'tra02'
 
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -352,8 +352,11 @@ while True:
                                 data_service_salas = socket.recv(390)
                                 data_service_salas = json.loads(data_service_salas[12:])
                                 break
-                            
-                            print(f'El invitado {rut} ha sido ingresado con éxito.')
+                            data_service_salas = str(data_service_salas)[14:len(str(data_service_salas))-1]
+                            if data_service_salas == 'Error':
+                                print(f'Persona no invitada a la reunion o reunión no existente')
+                            else:
+                                print(f'El invitado {rut} ha sido ingresado con éxito.')
                         else:
                             print('Servicio no disponible.')
                     elif(opt_rec == 2): #CANCELAR RESERVA

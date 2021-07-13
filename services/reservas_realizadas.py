@@ -6,7 +6,7 @@ import traceback
 import sqlite3
 import json
 
-SERVICE_RESERV_REALIZADAS = 'rer01'
+SERVICE_RESERV_REALIZADAS = 'rer02'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
