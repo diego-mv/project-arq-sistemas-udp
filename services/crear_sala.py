@@ -5,7 +5,7 @@ import socket
 import traceback
 import sqlite3
 
-SERVICE_NUEVA_SALA = 'nsa15'
+SERVICE_NUEVA_SALA = 'nsa16'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -39,7 +39,7 @@ while True:
             ubicacion = data['ubicacion']
             aforo = data['aforo']
                         
-            cur.execute(f'INSERT INTO sala VALUES (?,?);',(ubicacion, aforo,))
+            cur.execute(f'INSERT INTO sala (ubicacion,aforo) VALUES (?,?);',(ubicacion, aforo,))
             conn_bd.commit()
             print('Sala creada')
 

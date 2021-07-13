@@ -7,7 +7,7 @@ import socket
 import sqlite3
 import datetime
 
-SERVICE_TRAZABILIDAD = 'tra15'
+SERVICE_TRAZABILIDAD = 'tra16'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
