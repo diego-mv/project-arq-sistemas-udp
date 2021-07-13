@@ -6,7 +6,7 @@ import traceback
 import sqlite3
 import json
 
-SERVICE_RESERV_REALIZADAS = 'rer09'
+SERVICE_RESERV_REALIZADAS = 'rer99'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -45,7 +45,7 @@ while True:
             conn_bd.commit()
             result_reservas = []
 
-            for i in len(result):
+            for i in range(len(result)):
                 cur.execute(f'SELECT ubicacion FROM sala WHERE id=?;',(result[i][4],))
                 result_sala = cur.fetchall()
                 result_reservas.append(
