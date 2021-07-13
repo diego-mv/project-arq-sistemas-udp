@@ -25,7 +25,7 @@ Estados = [("Reserva realizada",), ("Reserva Cancelada",), ("Reserva Terminada",
 cur.executemany("INSERT INTO EstadoReserva(nombre) VALUES(?);", Estados)
 
 cur.execute('INSERT INTO usuario VALUES(0000,"admin","admin@admin.com", 0000,"admin",1)')
-cur.execute('INSERT INTO usuario VALUES(1111,"recepcion","recepcion@admin.com", 0000,"recepcion",1)')
+cur.execute('INSERT INTO usuario VALUES(1111,"recepcion","recepcion@admin.com", 0000,"recepcion",3)')
 
 conn_bd.commit()
 

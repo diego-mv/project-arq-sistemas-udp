@@ -4,18 +4,18 @@ import socket
 import json
 
 #------Servicios---------#
-SERVICE_LOGIN = 'log16'
-SERVICE_REGISTER = 'rgt16'
-SERVICE_LIST_SALAS = 'sls16'
-SERVICE_HOR_USADO_SALA = 'hus16'
-SERVICE_CONFIRM_RES = 'scr16'
-SERVICE_ADD_PARTICIPANTE_RESERV = 'apr16'
-SERVICE_RESERV_REALIZADAS = 'rer16'
-SERVICE_CANCEL_RESERV = 'car16'
-SERVICE_CONFIRM_INV = 'cap16'
-SERVICE_NUEVA_SALA = 'nsa16'
-SERVICE_DELETE_SALA = 'bsa16'
-SERVICE_TRAZABILIDAD = 'tra16'
+SERVICE_LOGIN = 'log01'
+SERVICE_REGISTER = 'rgt01'
+SERVICE_LIST_SALAS = 'sls01'
+SERVICE_HOR_USADO_SALA = 'hus01'
+SERVICE_CONFIRM_RES = 'scr01'
+SERVICE_ADD_PARTICIPANTE_RESERV = 'apr01'
+SERVICE_RESERV_REALIZADAS = 'rer01'
+SERVICE_CANCEL_RESERV = 'car01'
+SERVICE_CONFIRM_INV = 'cap01'
+SERVICE_NUEVA_SALA = 'nsa01'
+SERVICE_DELETE_SALA = 'bsa01'
+SERVICE_TRAZABILIDAD = 'tra01'
 
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -260,7 +260,7 @@ while True:
                             print('Buscando contactos estrechos...')
                             while True: 
                                 data_service_contactoEstr = socket.recv(390)
-                                data_service_contactoEstr = json.loads(data_service_salas[12:])
+                                data_service_contactoEstr = json.loads(data_service_contactoEstr[12:])
                                 break
                             if (len(data_service_contactoEstr) == 0):
                                 print('La persona no tuvo contactos estrechos.')
