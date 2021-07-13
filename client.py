@@ -118,7 +118,7 @@ while True:
 
                                 while True: 
                                     data_service_horario_usado = socket.recv(390)
-                                    data_service_salas = data_service_salas[12:]
+                                    data_service_hor_usado = data_service_horario_usado[12:]
                                     break
                                 #-------------------------------------HORARIOS DISPONIBLES DE UNA SALA EN UN DIA ESPECIFICOS-------------------------#
                                 HORARIOS_DISP = []
