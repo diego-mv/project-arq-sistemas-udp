@@ -216,12 +216,9 @@ while True:
                                     print(f'{i+1}. {reservas_realizadas[i]["reserva"]}')
                                 opt_reserva_cancel = int(input('>> '))
 
-                                for i in range(len(reservas_realizadas)):
-                                    if reservas_realizadas[opt_reserva_cancel-1]==reservas_realizadas[i]:
-                                        reserva_id_toCancel = reservas_realizadas[i][0]
-
+                                
                                 data_cancel_reserva = {
-                                    'reserva_id': reserva_id_toCancel
+                                    'reserva_id': reservas_realizadas[opt_reserva_cancel-1]['id']
                                 }
 
                                 SendToService(SERVICE_CANCEL_RESERV, data_cancel_reserva)
