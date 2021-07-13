@@ -5,7 +5,7 @@ import socket
 import sqlite3
 import traceback
 
-SERVICE_CONFIRM_RES = 'cap21' #confirmar-asistencia-participantes
+SERVICE_CONFIRM_RES = 'cap22' #confirmar-asistencia-participantes
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'

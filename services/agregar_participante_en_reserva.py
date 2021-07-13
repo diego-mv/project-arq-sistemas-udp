@@ -5,7 +5,7 @@ from datetime import date
 import socket
 import sqlite3
 
-SERVICE_ADD_PARTICIPANTE_RESERV = 'apr21'
+SERVICE_ADD_PARTICIPANTE_RESERV = 'apr22'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'

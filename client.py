@@ -4,18 +4,18 @@ import socket
 import json
 
 #------Servicios---------#
-SERVICE_LOGIN = 'log21'
-SERVICE_REGISTER = 'rgt21'
-SERVICE_LIST_SALAS = 'sls'
-SERVICE_HOR_USADO_SALA = 'hus21'
-SERVICE_CONFIRM_RES = 'scr21'
-SERVICE_ADD_PARTICIPANTE_RESERV = 'apr21'
-SERVICE_RESERV_REALIZADAS = 'rer21'
-SERVICE_CANCEL_RESERV = 'car21'
-SERVICE_CONFIRM_INV = 'cap21'
-SERVICE_NUEVA_SALA = 'nsa21'
-SERVICE_DELETE_SALA = 'bsa21'
-SERVICE_TRAZABILIDAD = 'tra21'
+SERVICE_LOGIN = 'log22'
+SERVICE_REGISTER = 'rgt22'
+SERVICE_LIST_SALAS = 'sls22'
+SERVICE_HOR_USADO_SALA = 'hus22'
+SERVICE_CONFIRM_RES = 'scr22'
+SERVICE_ADD_PARTICIPANTE_RESERV = 'apr22'
+SERVICE_RESERV_REALIZADAS = 'rer22'
+SERVICE_CANCEL_RESERV = 'car22'
+SERVICE_CONFIRM_INV = 'cap22'
+SERVICE_NUEVA_SALA = 'nsa22'
+SERVICE_DELETE_SALA = 'bsa22'
+SERVICE_TRAZABILIDAD = 'tra22'
 
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -79,7 +79,7 @@ while True:
                 break
             data_service = str(data_service)[14:len(str(data_service))-1]
             if data_service == 'SuccessUSER': #Si el servicio login es exitoso: data_service = b'00000lgn01OKSuccessUSER' Para Rol=Usuario
-                rut_usuario = data_login['rut']
+                rut_usuario = rut
                 print('Inicio de sesión exitoso.')
                 #---------------------------------MENU DESPUES DE LOGGEO-----------------------------------#
                 userLogged = True
@@ -122,7 +122,7 @@ while True:
 
                                     while True: 
                                         data_service_horario_usado = socket.recv(390)
-                                        data_service_salas = data_service_salas[12:]
+                                        data_service_horario_usado = data_service_horario_usado[12:]
                                         break
                                     #-------------------------------------HORARIOS DISPONIBLES DE UNA SALA EN UN DIA ESPECIFICOS-------------------------#
                                     HORARIOS_DISP = []
@@ -186,7 +186,7 @@ while True:
                                                     SendToService(SERVICE_ADD_PARTICIPANTE_RESERV, data_participante)
 
                                                     while True: 
-                                                        data_service_horario_usado = socket.recv(390)
+                                                        data_service_add_participante = socket.recv(390)
                                                         break
 
 
