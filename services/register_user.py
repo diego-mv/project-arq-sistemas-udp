@@ -4,7 +4,7 @@ import sys
 import socket
 import sqlite3
 
-SERVICE_REGISTER = 'rgt01'
+SERVICE_REGISTER = 'rgt05'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
