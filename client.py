@@ -104,8 +104,8 @@ while True:
                                 break
                             #--------------------------------------MENU SALAS DISPONIBLES----------------------------------#
                             print('Salas disponibles:')
-                            for i in len(data_service_salas):
-                                print(f'{i+1}. {data_service_salas[1]} | Aforo permitido: {data_service_salas[2]}')
+                            for i in range(len(data_service_salas)):
+                                print(f'{i+1}. {data_service_salas[i][1]} | Aforo permitido: {data_service_salas[i][2]}')
 
                             opt_sala = int(input('>> '))
                             fecha_req = input('Ingrese la fecha que requiere una reserva (dd-mm-yyyy): \n>> ') #------------------------!!!!!!!!!!!!!!!!VALIDAR FECHA CON EXPRESION REGULAR dd/mm/yyyy!!!!!!!!!!!!!!!
@@ -124,7 +124,7 @@ while True:
                                 #-------------------------------------HORARIOS DISPONIBLES DE UNA SALA EN UN DIA ESPECIFICOS-------------------------#
                                 HORARIOS_DISP = []
                                 print(f'Horarios disponibles en el día {fecha_req}')
-                                for i in len(HORARIOS):
+                                for i in range(len(HORARIOS)):
                                     if(data_service_horario_usado != HORARIOS[i]):
                                         HORARIOS_DISP.append(HORARIOS[i])
                                         print(f'{i+1}. {HORARIOS[i]}')
@@ -174,7 +174,7 @@ while True:
                                             #AGREGA A LOS PARTICIPANTES EN LA BD DESPUES DE AGREGAR LA RESERVA EN LA BD
 
                                             print('Agregando los participantes a la reserva realizada...')
-                                            for i in len(PARTICIPANTES):
+                                            for i in range(len(PARTICIPANTES)):
                                                 data_participante = {
                                                     'rut': PARTICIPANTES[i]['rut'],
                                                     'nombre': PARTICIPANTES[i]['nombre'],
@@ -213,11 +213,11 @@ while True:
                                     reservas_realizadas = socket.recv(390)
                                     break
                                 
-                                for i in len(reservas_realizadas):
+                                for i in range(len(reservas_realizadas)):
                                     print(f'{i+1}. {reservas_realizadas[i][1]}')
                                 opt_reserva_cancel = int(input('>> '))
 
-                                for i in len(reservas_realizadas):
+                                for i in range(len(reservas_realizadas)):
                                     if reservas_realizadas[opt_reserva_cancel-1]==reservas_realizadas[i]:
                                         reserva_id_toCancel = reservas_realizadas[i][0]
 
@@ -304,8 +304,8 @@ while True:
                                 break
                             #--------------------------------------MENU SALAS DISPONIBLES----------------------------------#
                             print('Salas disponibles:')
-                            for i in len(data_service_salas):
-                                print(f'{i+1}. {data_service_salas[1]} | Aforo permitido: {data_service_salas[2]}')
+                            for i in range(len(data_service_salas)):
+                                print(f'{i+1}. {data_service_salas[i][1]} | Aforo permitido: {data_service_salas[i][2]}')
 
                             opt_sala_admin = int(input('>> '))
                             
@@ -368,11 +368,11 @@ while True:
                                 reservas_realizadas = socket.recv(390)
                                 break
                             
-                            for i in len(reservas_realizadas):
+                            for i in range(len(reservas_realizadas)):
                                 print(f'{i+1}. {reservas_realizadas[i][1]}')
                             opt_reserva_cancel_rec = int(input('>> '))
 
-                            for i in len(reservas_realizadas):
+                            for i in range(len(reservas_realizadas)):
                                 if reservas_realizadas[opt_reserva_cancel_rec-1]==reservas_realizadas[i]:
                                     reserva_id_toCancel = reservas_realizadas[i][0]
                             data_cancel_reserva = {
