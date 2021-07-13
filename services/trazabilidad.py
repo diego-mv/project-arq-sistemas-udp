@@ -38,21 +38,42 @@ while True:
             data = eval(data_socket_2)
             print(f"Received data: {data}")
             rut_contagiado = data['rut']
-            today = datetime.datetime.now()
+
             #dd-mm-yyyy HH:mm
+            dias_atras = datetime.datetime.now() + datetime.timedelta(days=-15)
+            dia = str(dias_atras.day).rjust(2, '0')
+            mes = str(dias_atras.month).rjust(2, '0')
+            anio = str(dias_atras.year).rjust(2, '0')
+            contactos_estrechos = []
+            invitados = []
 
-            cur.execute(f'SELECT reserva_id FROM invitados WHERE id={rut_contagiado}')
-            ids_reservas = cur.fetchall()
-
+            cur.execute(f'SELECT reserva_id FROM invitados WHERE rut={rut_contagiado} AND asistio=1')
+            res = cur.fetchall()
+            id_reservas_contagiado = []
+            for i in range(len(res)):
+                id_reservas_contagiado.append(res[i][0])
             
-
-    	    #estado 2: Reserva cancelada
-            cur.execute(f'UPDATE reserva SET estado_id=2 WHERE id={reserva_id};')
-            conn_bd.commit()
-            print('Reserva cambiada a estado cancelada')
+            cur.execute(f'SELECT * FROM reserva  WHERE id IN {tuple(id_reservas_contagiado)} AND ((CAST(SUBSTR(inicia,4,5) AS INTEGER)>={mes} AND CAST(SUBSTR(inicia,1,2) AS INTEGER)<={dia}) OR (CAST(SUBSTR(inicia,4,5) AS INTEGER)={mes} AND CAST(SUBSTR(inicia,1,2) AS INTEGER)>={dia}))')
+            reservas_recientes = cur.fetchall()
             
+            for i in range(len(reservas_recientes)):
+                cur.execute(f'SELECT * FROM usuario WHERE rut={reservas_recientes[i][3]};')
+                user = cur.fetchall()
+                contactos_estrechos.append({
+                    'rut': user[0][0], 
+                    'nombre': user[0][1],
+                    'email': user[0][2],
+                })
+                cur.execute(f'SELECT * FROM invitados WHERE reserva_id={reservas_recientes[i][0]};')
+                invitados += cur.fetchall()
             
-            jsonSalas = json.dumps(result)
+            for i in range(len(invitados)):
+                contactos_estrechos.append({
+                    'rut': invitados[i][0], 
+                    'nombre': invitados[i][1],
+                    'email': invitados[i][2],
+                })
+            jsonSalas = json.dumps(contactos_estrechos)
 
             trans_cmd = SERVICE_TRAZABILIDAD + jsonSalas
             trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd

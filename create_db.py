@@ -16,7 +16,7 @@ cur.execute('CREATE TABLE Reserva(id integer PRIMARY KEY AUTOINCREMENT, inicia v
 cur.execute('CREATE TABLE Invitados(rut integer PRIMARY KEY, nombre varchar(100), correo varchar(100), asistio int, reserva_id int, FOREIGN KEY(reserva_id) REFERENCES Reserva(id))')
 
 Roles = [("Admin"), ("Usuario"), ("Recepcion")]
-cur.executemany("INSERT INTO Rol(nombre) VALUES ( ?);", Roles)
+cur.executemany("INSERT INTO Rol(nombre) VALUES (?);", Roles)
 
 Salas = [("Piso 1, Sala 12", 10), ("Piso 1, Sala 11", 15), ("Piso 2, Sala 24", 8)]
 cur.executemany("INSERT INTO Sala(ubicacion,aforo) VALUES(?, ?);", Salas)
