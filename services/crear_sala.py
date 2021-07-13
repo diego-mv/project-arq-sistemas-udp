@@ -5,7 +5,7 @@ import socket
 import traceback
 import sqlite3
 
-SERVICE_NUEVA_SALA = 'nsa14'
+SERVICE_NUEVA_SALA = 'nsa15'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
