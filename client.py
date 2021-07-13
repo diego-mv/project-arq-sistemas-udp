@@ -4,18 +4,18 @@ import socket
 import json
 
 #------Servicios---------#
-SERVICE_LOGIN = 'log05'
-SERVICE_REGISTER = 'rgt05'
-SERVICE_LIST_SALAS = 'sls05'
-SERVICE_HOR_USADO_SALA = 'hus05'
-SERVICE_CONFIRM_RES = 'scr05'
-SERVICE_ADD_PARTICIPANTE_RESERV = 'apr05'
-SERVICE_RESERV_REALIZADAS = 'rer05'
-SERVICE_CANCEL_RESERV = 'car05'
-SERVICE_CONFIRM_INV = 'cap05'
-SERVICE_NUEVA_SALA = 'nsa05'
-SERVICE_DELETE_SALA = 'bsa05'
-SERVICE_TRAZABILIDAD = 'tra05'
+SERVICE_LOGIN = 'log11'
+SERVICE_REGISTER = 'rgt11'
+SERVICE_LIST_SALAS = 'sls11'
+SERVICE_HOR_USADO_SALA = 'hus11'
+SERVICE_CONFIRM_RES = 'scr11'
+SERVICE_ADD_PARTICIPANTE_RESERV = 'apr11'
+SERVICE_RESERV_REALIZADAS = 'rer11'
+SERVICE_CANCEL_RESERV = 'car11'
+SERVICE_CONFIRM_INV = 'cap11'
+SERVICE_NUEVA_SALA = 'nsa11'
+SERVICE_DELETE_SALA = 'bsa11'
+SERVICE_TRAZABILIDAD = 'tra11'
 
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -168,7 +168,7 @@ while True:
 
                                             while True: 
                                                 data_service_confirm_res = socket.recv(390)
-                                                data_service_confirm_res = str(data_service_confirm_res)[20:len(str(data_service_confirm_res))-1]
+                                                data_service_confirm_res = str(data_service_confirm_res)[21:len(str(data_service_confirm_res))-1]
                                                 break
                                             print(f"CODIGO DE LA RESERVA: {data_service_confirm_res}")
                                             #AGREGA A LOS PARTICIPANTES EN LA BD DESPUES DE AGREGAR LA RESERVA EN LA BD
