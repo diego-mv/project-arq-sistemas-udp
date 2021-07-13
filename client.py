@@ -209,6 +209,7 @@ while True:
 
                                 while True: 
                                     reservas_realizadas = socket.recv(390)
+                                    reservas_realizadas = json.loads(reservas_realizadas[12:])
                                     break
                                 print('Indique la reserva que desea cancelar:')
                                 for i in range(len(reservas_realizadas)):
