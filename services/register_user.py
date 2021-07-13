@@ -5,7 +5,7 @@ import socket
 import traceback
 import sqlite3
 
-SERVICE_REGISTER = 'rgt55'
+SERVICE_REGISTER = 'rgt56'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
