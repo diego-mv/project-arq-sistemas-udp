@@ -5,7 +5,7 @@ from datetime import date
 import socket
 import sqlite3
 
-SERVICE_ADD_PARTICIPANTE_RESERV = 'apr93'
+SERVICE_ADD_PARTICIPANTE_RESERV = 'apr92'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -54,7 +54,7 @@ while True:
             aforo_max_sala = cur.fetchone()
             print(aforo_max_sala)
             
-            if(int(aforo_max_sala[0]) < cant_invitados):
+            if(int(aforo_max_sala[0]) > cant_invitados):
                 cur.execute(f'INSERT INTO invitados (rut,nombre,correo,asistio,reserva_id) VALUES (?,?,?, 0, ?);',(rut_p,nombre_p,correo_p,reserva_id,))
                 conn_bd.commit()
                 print(f'Invitado agregado en reserva {reserva_id}')
