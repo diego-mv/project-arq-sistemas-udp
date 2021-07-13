@@ -7,7 +7,7 @@ import socket
 import sqlite3
 import datetime
 
-SERVICE_TRAZABILIDAD = 'tra80'
+SERVICE_TRAZABILIDAD = 'tra81'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -55,7 +55,7 @@ while True:
             for i in range(len(res)):
                 id_reservas_contagiado.append(res[i][0])
             
-            cur.execute(f'SELECT * FROM reserva  WHERE id IN {tuple(id_reservas_contagiado)} AND ((CAST(SUBSTR(inicia,4,5) AS INTEGER)>=? AND CAST(SUBSTR(inicia,1,2) AS INTEGER)<=?) OR (CAST(SUBSTR(inicia,4,5) AS INTEGER)=? AND CAST(SUBSTR(inicia,1,2) AS INTEGER)>=?)',(mes,dia,mes,dia,))
+            cur.execute(f'SELECT * FROM reserva  WHERE id IN {tuple(id_reservas_contagiado)} AND ((CAST(SUBSTR(inicia,4,5) AS INTEGER)>=? AND CAST(SUBSTR(inicia,1,2) AS INTEGER)<=?) OR (CAST(SUBSTR(inicia,4,5) AS INTEGER)=? AND CAST(SUBSTR(inicia,1,2) AS INTEGER)>=?))',(mes,dia,mes,dia,))
             reservas_recientes = cur.fetchall()
             print(reservas_recientes)
             
@@ -83,8 +83,6 @@ while True:
             trans_cmd = SERVICE_TRAZABILIDAD + jsonSalas
             trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
             socket.send(trans.encode(encoding='UTF-8'))
-    except sqlite3.Error as er:
-        print('SQLite error: %s' % (' '.join(er.args)))
     except:
         ex = traceback.print_exc()
         print(f"Error: {ex}")
