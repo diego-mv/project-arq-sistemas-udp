@@ -6,7 +6,7 @@ import traceback
 import sqlite3
 import json
 
-SERVICE_RESERV_REALIZADAS = 'rer02'
+SERVICE_RESERV_REALIZADAS = 'rer03'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -48,14 +48,9 @@ while True:
             for i in range(len(result)):
                 cur.execute(f'SELECT ubicacion FROM sala WHERE id=?;',(result[i][4],))
                 result_sala = cur.fetchall()
-                result_reservas.append(
-                    {
-                        'id' : result[i][0],
-                        'reserva': f"{result_sala[i][0]} {result[i][1]} - {result[i][2][11:]}"
-                    }
-                )
+                
             
-            jsonSalas = json.dumps(result_reservas)
+            jsonSalas = json.dumps(result_sala)
             trans_cmd = SERVICE_RESERV_REALIZADAS + jsonSalas
             trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
             socket.send(trans.encode(encoding='UTF-8'))

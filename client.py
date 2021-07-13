@@ -4,18 +4,18 @@ import socket
 import json
 
 #------Servicios---------#
-SERVICE_LOGIN = 'log02'
-SERVICE_REGISTER = 'rgt02'
-SERVICE_LIST_SALAS = 'sls02'
-SERVICE_HOR_USADO_SALA = 'hus02'
-SERVICE_CONFIRM_RES = 'scr02'
-SERVICE_ADD_PARTICIPANTE_RESERV = 'apr02'
-SERVICE_RESERV_REALIZADAS = 'rer02'
-SERVICE_CANCEL_RESERV = 'car02'
-SERVICE_CONFIRM_INV = 'cap02'
-SERVICE_NUEVA_SALA = 'nsa02'
-SERVICE_DELETE_SALA = 'bsa02'
-SERVICE_TRAZABILIDAD = 'tra02'
+SERVICE_LOGIN = 'log03'
+SERVICE_REGISTER = 'rgt03'
+SERVICE_LIST_SALAS = 'sls03'
+SERVICE_HOR_USADO_SALA = 'hus03'
+SERVICE_CONFIRM_RES = 'scr03'
+SERVICE_ADD_PARTICIPANTE_RESERV = 'apr03'
+SERVICE_RESERV_REALIZADAS = 'rer03'
+SERVICE_CANCEL_RESERV = 'car03'
+SERVICE_CONFIRM_INV = 'cap03'
+SERVICE_NUEVA_SALA = 'nsa03'
+SERVICE_DELETE_SALA = 'bsa03'
+SERVICE_TRAZABILIDAD = 'tra03'
 
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -168,7 +168,9 @@ while True:
 
                                             while True: 
                                                 data_service_confirm_res = socket.recv(390)
+                                                data_service_confirm_res = str(data_service_confirm_res)[20:len(str(data_service_confirm_res))-1]
                                                 break
+                                            print(f"CODIGO DE LA RESERVA: {data_service_confirm_res}")
                                             #AGREGA A LOS PARTICIPANTES EN LA BD DESPUES DE AGREGAR LA RESERVA EN LA BD
                                             id_nueva_reserva = str(data_service_confirm_res)[21:len(str(data_service_confirm_res))-1]
                                             print('Agregando los participantes a la reserva realizada...')

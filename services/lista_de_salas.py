@@ -6,7 +6,7 @@ import sqlite3
 import traceback
 import sys
 
-SERVICE_LIST_SALAS = 'sls02'
+SERVICE_LIST_SALAS = 'sls03'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
