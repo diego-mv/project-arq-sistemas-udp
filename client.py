@@ -211,21 +211,24 @@ while True:
                                     reservas_realizadas = socket.recv(390)
                                     reservas_realizadas = json.loads(reservas_realizadas[12:])
                                     break
-                                print('Indique la reserva que desea cancelar:')
-                                for i in range(len(reservas_realizadas)):
-                                    print(f'{i+1}. {reservas_realizadas[i]["reserva"]}')
-                                opt_reserva_cancel = int(input('>> '))
+                                if(len(reservas_realizadas) !=0 ):
+                                    print('Indique la reserva que desea cancelar:')
+                                    for i in range(len(reservas_realizadas)):
+                                        print(f'{i+1}. {reservas_realizadas[i]["reserva"]}')
+                                    opt_reserva_cancel = int(input('>> '))
 
-                                
-                                data_cancel_reserva = {
-                                    'reserva_id': reservas_realizadas[opt_reserva_cancel-1]['id']
-                                }
 
-                                SendToService(SERVICE_CANCEL_RESERV, data_cancel_reserva)
-                                while True: 
-                                    reservas_realizadas = socket.recv(390)
-                                    break
-                                print('Reserva cancelada.')
+                                    data_cancel_reserva = {
+                                        'reserva_id': reservas_realizadas[opt_reserva_cancel-1]['id']
+                                    }
+
+                                    SendToService(SERVICE_CANCEL_RESERV, data_cancel_reserva)
+                                    while True: 
+                                        reservas_realizadas = socket.recv(390)
+                                        break
+                                    print('Reserva cancelada.')
+                                else:
+                                    print('Sin reservas')
                         else: 
                             print('Servicio no disponible.')
                     elif(opt2 == 3):
@@ -277,7 +280,7 @@ while True:
                                 'ubicacion' : ubicacion,
                                 'aforo' : aforo
                             }
-                            SendToService(SERVICE_NUEVA_SALA, data_inv)
+                            SendToService(SERVICE_NUEVA_SALA, data_nueva_sala)
 
                             while True: 
                                 data_service_salas = socket.recv(390)
@@ -305,7 +308,7 @@ while True:
                             opt_sala_admin = int(input('>> '))
                             
                             data_sala_delete = {
-                                'id_sala': data_service_salas[opt_sala-1][0], 
+                                'id_sala': data_service_salas[opt_sala_admin-1][0], 
                             }
                             SendToService(SERVICE_DELETE_SALA, data_sala_delete)
                             while True: 
