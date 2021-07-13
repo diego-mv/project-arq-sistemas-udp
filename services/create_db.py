@@ -24,8 +24,8 @@ cur.executemany("INSERT INTO Sala(ubicacion,aforo) VALUES(?, ?);", Salas)
 Estados = [("Reserva realizada",), ("Reserva Cancelada",), ("Reserva Terminada",)]
 cur.executemany("INSERT INTO EstadoReserva(nombre) VALUES(?);", Estados)
 
-cur.execute('INSERT INTO usuario (rut, nombre,correo,fono,pwhash,rol_id) VALUES (?,?,?,?,?,?)',('admin','admin','admin','admin','admin',1))
-cur.execute('INSERT INTO usuario (rut, nombre,correo,fono,pwhash,rol_id) VALUES (?,?,?,?,?,?)',('recepcion','recepcion','recepcion','recepcion','recepcion',3))
+cur.execute('INSERT INTO usuario (rut, nombre,correo,fono,pwhash,rol_id) VALUES (?,?,?,?,?,?)',('0000','admin','admin','0000','admin',1))
+cur.execute('INSERT INTO usuario (rut, nombre,correo,fono,pwhash,rol_id) VALUES (?,?,?,?,?,?)',('1111','recepcion','recepcion','1111','recepcion',3))
 
 conn_bd.commit()
 

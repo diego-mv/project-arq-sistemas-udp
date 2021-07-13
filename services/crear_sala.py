@@ -39,7 +39,7 @@ while True:
             ubicacion = data['ubicacion']
             aforo = data['aforo']
                         
-            cur.execute(f'INSERT INTO sala VALUES (?,?);',(ubicacion, aforo,))
+            cur.execute(f'INSERT INTO sala (ubicacion,aforo) VALUES (?,?);',(ubicacion, aforo,))
             conn_bd.commit()
             print('Sala creada')
 
@@ -48,9 +48,15 @@ while True:
             socket.send(trans.encode(encoding='UTF-8'))
     except sqlite3.Error as er:
         print('SQLite error: %s' % (' '.join(er.args)))
+        trans_cmd = SERVICE_NUEVA_SALA + 'Error' 
+        trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
+        socket.send(trans.encode(encoding='UTF-8'))
     except:
         ex = traceback.print_exc()
         print(f"Error: {ex}")
+        trans_cmd = SERVICE_NUEVA_SALA + 'Error' 
+        trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
+        socket.send(trans.encode(encoding='UTF-8'))
     finally:
         print('Finally')
 

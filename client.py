@@ -78,7 +78,9 @@ while True:
                 data_service = socket.recv(390)
                 break
             data_service = str(data_service)[14:len(str(data_service))-1]
-            if data_service == 'SuccessUSER': #Si el servicio login es exitoso: data_service = b'00000lgn01OKSuccessUSER' Para Rol=Usuario
+            if(data_service == 'Error'):
+                print('Ha ocurrido un error, intente nuevamente')
+            elif data_service == 'SuccessUSER': #Si el servicio login es exitoso: data_service = b'00000lgn01OKSuccessUSER' Para Rol=Usuario
                 rut_usuario = rut
                 print('Inicio de sesión exitoso.')
                 #---------------------------------MENU DESPUES DE LOGGEO-----------------------------------#
@@ -105,7 +107,8 @@ while True:
                                 else:
                                     data_service_salas = json.loads(data_service_salas[12:])
                             #--------------------------------------MENU SALAS DISPONIBLES----------------------------------#
-                            if(data_service_salas)[12:]:
+                            data_servic = str(data_service)[14:len(str(data_service))-1]
+                            if(data_servic != 'Error'):
                                 print('Salas disponibles:')
                                 for i in range(len(data_service_salas)):
                                     print(f'{i+1}. {data_service_salas[i][1]} | Aforo permitido: {data_service_salas[i][2]}')
@@ -124,80 +127,88 @@ while True:
                                         data_service_horario_usado = socket.recv(390)
                                         data_service_horario_usado = data_service_horario_usado[12:]
                                         break
+                                    data_servic = str(data_service)[14:len(str(data_service))-1]
+                                    if(data_servic != 'Error'):
                                     #-------------------------------------HORARIOS DISPONIBLES DE UNA SALA EN UN DIA ESPECIFICOS-------------------------#
-                                    HORARIOS_DISP = []
-                                    print(f'Horarios disponibles en el día {fecha_req}')
-                                    for i in range(len(HORARIOS)):
-                                        if(data_service_horario_usado != HORARIOS[i]):
-                                            HORARIOS_DISP.append(HORARIOS[i])
-                                            print(f'{i+1}. {HORARIOS[i]}')
+                                        HORARIOS_DISP = []
+                                        print(f'Horarios disponibles en el día {fecha_req}')
+                                        for i in range(len(HORARIOS)):
+                                            if(data_service_horario_usado != HORARIOS[i]):
+                                                HORARIOS_DISP.append(HORARIOS[i])
+                                                print(f'{i+1}. {HORARIOS[i]}')
 
-                                    opt_horario = int(input('>> '))
+                                        opt_horario = int(input('>> '))
 
-                                    menu_conf_reserva = True
-                                    PARTICIPANTES = []
-                                    while menu_conf_reserva: 
-                                        #=-------------------------------------------------MENU CONFIRMACION DE RESERVA-----------------------------------------------------#
-                                        print('Que desea hacer:')
-                                        print('1. Agregar participante a la reunion')
-                                        print('2. Confirmar reserva (no puede ingresar más participantes)')
-                                        print('3. No realizar reserva y salir')
-                                        opt3 = int(input('>> '))
+                                        menu_conf_reserva = True
+                                        PARTICIPANTES = []
+                                        while menu_conf_reserva: 
+                                            #=-------------------------------------------------MENU CONFIRMACION DE RESERVA-----------------------------------------------------#
+                                            print('Que desea hacer:')
+                                            print('1. Agregar participante a la reunion')
+                                            print('2. Confirmar reserva (no puede ingresar más participantes)')
+                                            print('3. No realizar reserva y salir')
+                                            opt3 = int(input('>> '))
 
-                                        if(opt3 == 1): #Ingresar participante
-                                            print('Ingrese datos del participante:')
-                                            rut_p = input('RUT: ')
-                                            nombre_p = input('Nombre: ')
-                                            correo_p = input('Email: ')
+                                            if(opt3 == 1): #Ingresar participante
+                                                print('Ingrese datos del participante:')
+                                                rut_p = input('RUT: ')
+                                                nombre_p = input('Nombre: ')
+                                                correo_p = input('Email: ')
 
-                                            if not rut_p or not nombre_p or not correo_p:
-                                                print('No se pudo ingresar al participante porque un campo no es correcto.')
-                                            else:
-                                                PARTICIPANTES.append({
-                                                    'rut': rut_p,
-                                                    'nombre': nombre_p,
-                                                    'correo': correo_p,                                         
-                                                })
-                                                print('Participante agregado')
-                                        elif(opt3 == 2): #Confirmar reserva
-                                            if GetFromService(SERVICE_CONFIRM_RES) == 'OK' and GetFromService(SERVICE_ADD_PARTICIPANTE_RESERV) == 'OK':
-                                                print('Confirmando reserva...')
-                                                data_confirma_reserva = {
-                                                    'inicia': f'{fecha_req} {HORARIOS_DISP[opt_horario][:5]}',
-                                                    'termina': f'{fecha_req} {HORARIOS_DISP[opt_horario][8:]}',
-                                                    'anfitrion_rut': rut_usuario,
-                                                    'sala_id': data_service_salas[opt_sala-1][0]
-                                                }
-                                                SendToService(SERVICE_CONFIRM_RES, data_confirma_reserva)
-
-                                                while True: 
-                                                    data_service_confirm_res = socket.recv(390)
-                                                    break
-                                                #AGREGA A LOS PARTICIPANTES EN LA BD DESPUES DE AGREGAR LA RESERVA EN LA BD
-                                                id_nueva_reserva = str(data_service_confirm_res)[21:len(str(data_service_confirm_res))-1]
-                                                print('Agregando los participantes a la reserva realizada...')
-                                                for i in range(len(PARTICIPANTES)):
-                                                    data_participante = {
-                                                        'rut': PARTICIPANTES[i]['rut'],
-                                                        'nombre': PARTICIPANTES[i]['nombre'],
-                                                        'correo': PARTICIPANTES[i]['correo'],
-                                                        'reserva_id': id_nueva_reserva
+                                                if not rut_p or not nombre_p or not correo_p:
+                                                    print('No se pudo ingresar al participante porque un campo no es correcto.')
+                                                else:
+                                                    PARTICIPANTES.append({
+                                                        'rut': rut_p,
+                                                        'nombre': nombre_p,
+                                                        'correo': correo_p,                                         
+                                                    })
+                                                    print('Participante agregado')
+                                            elif(opt3 == 2): #Confirmar reserva
+                                                if GetFromService(SERVICE_CONFIRM_RES) == 'OK' and GetFromService(SERVICE_ADD_PARTICIPANTE_RESERV) == 'OK':
+                                                    print('Confirmando reserva...')
+                                                    data_confirma_reserva = {
+                                                        'inicia': f'{fecha_req} {HORARIOS_DISP[opt_horario][:5]}',
+                                                        'termina': f'{fecha_req} {HORARIOS_DISP[opt_horario][8:]}',
+                                                        'anfitrion_rut': rut_usuario,
+                                                        'sala_id': data_service_salas[opt_sala-1][0]
                                                     }
-                                                    SendToService(SERVICE_ADD_PARTICIPANTE_RESERV, data_participante)
+                                                    SendToService(SERVICE_CONFIRM_RES, data_confirma_reserva)
 
                                                     while True: 
-                                                        data_service_add_participante = socket.recv(390)
+                                                        data_service_confirm_res = socket.recv(390)
                                                         break
+                                                    data_servic = str(data_service)[14:len(str(data_service))-1]
+                                                    if(data_servic != 'Error'):
+                                                        #AGREGA A LOS PARTICIPANTES EN LA BD DESPUES DE AGREGAR LA RESERVA EN LA BD
+                                                        id_nueva_reserva = str(data_service_confirm_res)[21:len(str(data_service_confirm_res))-1]
+                                                        print('Agregando los participantes a la reserva realizada...')
+                                                        for i in range(len(PARTICIPANTES)):
+                                                            data_participante = {
+                                                                'rut': PARTICIPANTES[i]['rut'],
+                                                                'nombre': PARTICIPANTES[i]['nombre'],
+                                                                'correo': PARTICIPANTES[i]['correo'],
+                                                                'reserva_id': id_nueva_reserva
+                                                            }
+                                                            SendToService(SERVICE_ADD_PARTICIPANTE_RESERV, data_participante)
+                                                            
+                                                            while True: 
+                                                                data_service_add_participante = socket.recv(390)
+                                                                break
 
 
-                                                print('Reserva realizada, ¡adios!')
-                                                menu_conf_reserva = False
-                                            else: 
-                                                print('Servicio de reserva no disponible al confirmar y agregar participante')  
+                                                        print('Reserva realizada, ¡adios!')
+                                                        menu_conf_reserva = False
+                                                    else:
+                                                        print('Ha ocurrido un error, intente nuevamente')
+                                                else: 
+                                                    print('Servicio de reserva no disponible al confirmar y agregar participante')  
+                                                    menu_conf_reserva = False
+                                            else:
+                                                print('¡ADIOS!')
                                                 menu_conf_reserva = False
                                         else:
-                                            print('¡ADIOS!')
-                                            menu_conf_reserva = False
+                                            print('Ha ocurrido un error, intente nuevamente')
                                 else: 
                                     print('Servicio de reserva no disponible')    
                             else:
@@ -217,24 +228,31 @@ while True:
                                     reservas_realizadas = socket.recv(390)
                                     reservas_realizadas = json.loads(reservas_realizadas)
                                     break
-                                
-                                for i in range(len(reservas_realizadas)):
-                                    print(f'{i+1}. {reservas_realizadas[i][1]}')
-                                opt_reserva_cancel = int(input('>> '))
+                                data_servic = str(data_service)[14:len(str(data_service))-1]
+                                if(data_servic != 'Error'):
+                                    for i in range(len(reservas_realizadas)):
+                                        print(f'{i+1}. {reservas_realizadas[i][1]}')
+                                    opt_reserva_cancel = int(input('>> '))
 
-                                for i in range(len(reservas_realizadas)):
-                                    if reservas_realizadas[opt_reserva_cancel-1]==reservas_realizadas[i]:
-                                        reserva_id_toCancel = reservas_realizadas[i][0]
+                                    for i in range(len(reservas_realizadas)):
+                                        if reservas_realizadas[opt_reserva_cancel-1]==reservas_realizadas[i]:
+                                            reserva_id_toCancel = reservas_realizadas[i][0]
 
-                                data_cancel_reserva = {
-                                    'reserva_id': reserva_id_toCancel
-                                }
+                                    data_cancel_reserva = {
+                                        'reserva_id': reserva_id_toCancel
+                                    }
 
-                                SendToService(SERVICE_CANCEL_RESERV, data_cancel_reserva)
-                                while True: 
-                                    reservas_realizadas = socket.recv(390)
-                                    break
-                                print('Reserva cancelada.')
+                                    SendToService(SERVICE_CANCEL_RESERV, data_cancel_reserva)
+                                    while True: 
+                                        reservas_realizadas = socket.recv(390)
+                                        break
+                                    data_servic = str(data_service)[14:len(str(data_service))-1]
+                                    if(data_servic != 'Error'):
+                                        print('Reserva cancelada.')
+                                    else:
+                                       print('Ha ocurrido un error, intente nuevamente') 
+                                else:
+                                    print('Ha ocurrido un error, intente nuevamente')
                         else: 
                             print('Servicio no disponible.')
                     elif(opt2 == 3):
@@ -286,7 +304,7 @@ while True:
                                 'ubicacion' : ubicacion,
                                 'aforo' : aforo
                             }
-                            SendToService(SERVICE_NUEVA_SALA, data_inv)
+                            SendToService(SERVICE_NUEVA_SALA, data_nueva_sala)
 
                             while True: 
                                 data_service_salas = socket.recv(390)

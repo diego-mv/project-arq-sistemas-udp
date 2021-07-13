@@ -64,9 +64,15 @@ while True:
             break
     except sqlite3.Error as er:
         print('SQLite error: %s' % (' '.join(er.args)))
+        trans_cmd = SERVICE_REGISTER + 'Error' 
+        trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
+        socket.send(trans.encode(encoding='UTF-8'))
     except:
         ex = traceback.print_exc()
         print(f"Error: {ex}")
+        trans_cmd = SERVICE_REGISTER + 'Error' 
+        trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
+        socket.send(trans.encode(encoding='UTF-8'))
     finally:
         print('Finally')
 
