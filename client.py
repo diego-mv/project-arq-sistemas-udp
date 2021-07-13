@@ -4,18 +4,18 @@ import socket
 import json
 
 #------Servicios---------#
-SERVICE_LOGIN = 'log30'
-SERVICE_REGISTER = 'rgt30'
-SERVICE_LIST_SALAS = 'sls30'
-SERVICE_HOR_USADO_SALA = 'hus30'
-SERVICE_CONFIRM_RES = 'scr30'
-SERVICE_ADD_PARTICIPANTE_RESERV = 'apr30'
-SERVICE_RESERV_REALIZADAS = 'rer30'
-SERVICE_CANCEL_RESERV = 'car30'
-SERVICE_CONFIRM_INV = 'cap30'
-SERVICE_NUEVA_SALA = 'nsa30'
-SERVICE_DELETE_SALA = 'bsa30'
-SERVICE_TRAZABILIDAD = 'tra30'
+SERVICE_LOGIN = 'log31'
+SERVICE_REGISTER = 'rgt31'
+SERVICE_LIST_SALAS = 'sls31'
+SERVICE_HOR_USADO_SALA = 'hus31'
+SERVICE_CONFIRM_RES = 'scr31'
+SERVICE_ADD_PARTICIPANTE_RESERV = 'apr31'
+SERVICE_RESERV_REALIZADAS = 'rer31'
+SERVICE_CANCEL_RESERV = 'car31'
+SERVICE_CONFIRM_INV = 'cap31'
+SERVICE_NUEVA_SALA = 'nsa31'
+SERVICE_DELETE_SALA = 'bsa31'
+SERVICE_TRAZABILIDAD = 'tra31'
 
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -334,11 +334,10 @@ while True:
                 receptionLogged = True
                 while receptionLogged:
                     print('1. Confirmar asistencia de invitados.')
-                    print('2. Cancelar reunión.')
-                    print('3. Salir')
-                    opt_rec = int(input('>> '))
+                    print('2. Salir')
+                    opt_rec = (input('>> '))
 
-                    if(opt_rec == 1): #CONFIRMAR ASISTENCIA INVITADO
+                    if(opt_rec == '1'): #CONFIRMAR ASISTENCIA INVITADO
                         rut = input('Ingrese el rut del invitado\n>> ')
                         reserva_id = input('Ingrese el codigo de la reserva\n>> ')
 
@@ -360,40 +359,40 @@ while True:
                                 print(f'El invitado {rut} ha sido ingresado con éxito.')
                         else:
                             print('Servicio no disponible.')
-                    elif(opt_rec == 2): #CANCELAR RESERVA
-                        rut_anf = input('Ingrese el rut del anfitrión\n>> ')
-                        data_reservas_realiz_rec = {
-                            'rut': rut_anf
-                        }
-                        if GetFromService(SERVICE_RESERV_REALIZADAS) == 'OK' and GetFromService(SERVICE_CANCEL_RESERV) == 'OK':
-                            SendToService(SERVICE_RESERV_REALIZADAS, data_reservas_realiz_rec)
-                            while True: 
-                                reservas_realizadas = socket.recv(390)
-                                reservas_realizadas = json.loads(reservas_realizadas[12:])
-                                break
+                    # elif(opt_rec == 2): #CANCELAR RESERVA
+                    #     rut_anf = input('Ingrese el rut del anfitrión\n>> ')
+                    #     data_reservas_realiz_rec = {
+                    #         'rut': rut_anf
+                    #     }
+                    #     if GetFromService(SERVICE_RESERV_REALIZADAS) == 'OK' and GetFromService(SERVICE_CANCEL_RESERV) == 'OK':
+                    #         SendToService(SERVICE_RESERV_REALIZADAS, data_reservas_realiz_rec)
+                    #         while True: 
+                    #             reservas_realizadas = socket.recv(390)
+                    #             reservas_realizadas = json.loads(reservas_realizadas[12:])
+                    #             break
                             
-                            if len(reservas_realizadas)!=0:
-                                for i in range(len(reservas_realizadas)):
-                                    print(f'{i+1}. {reservas_realizadas[i][1]}')
-                                opt_reserva_cancel_rec = int(input('>> '))
+                    #         if len(reservas_realizadas)!=0:
+                    #             for i in range(len(reservas_realizadas)):
+                    #                 print(f'{i+1}. {reservas_realizadas[i][1]}')
+                    #             opt_reserva_cancel_rec = int(input('>> '))
 
-                                for i in range(len(reservas_realizadas)):
-                                    if reservas_realizadas[opt_reserva_cancel_rec-1]==reservas_realizadas[i]:
-                                        reserva_id_toCancel = reservas_realizadas[i][0]
-                                data_cancel_reserva = {
-                                    'reserva_id': reserva_id_toCancel
-                                }
+                    #             for i in range(len(reservas_realizadas)):
+                    #                 if reservas_realizadas[opt_reserva_cancel_rec-1]==reservas_realizadas[i]:
+                    #                     reserva_id_toCancel = reservas_realizadas[i][0]
+                    #             data_cancel_reserva = {
+                    #                 'reserva_id': reserva_id_toCancel
+                    #             }
 
-                                SendToService(SERVICE_CANCEL_RESERV, data_cancel_reserva)
-                                while True: 
-                                    res_sv = socket.recv(390)
-                                    break
-                                print('Reserva cancelada.')
-                            else:
-                                print(f'{rut_anf} no tiene reservas activas.')
-                        else:
-                            print('Servicio no disponible.')
-                    elif(opt_rec == 3):
+                    #             SendToService(SERVICE_CANCEL_RESERV, data_cancel_reserva)
+                    #             while True: 
+                    #                 res_sv = socket.recv(390)
+                    #                 break
+                    #             print('Reserva cancelada.')
+                    #         else:
+                    #             print(f'{rut_anf} no tiene reservas activas.')
+                    #     else:
+                    #         print('Servicio no disponible.')
+                    elif(opt_rec == '3'):
                         print('ADIOS!')
                         receptionLogged=False
                     else:

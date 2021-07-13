@@ -5,7 +5,7 @@ import socket
 import sqlite3
 import traceback
 
-SERVICE_CANCEL_RESERV = 'car30'
+SERVICE_CANCEL_RESERV = 'car31'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'

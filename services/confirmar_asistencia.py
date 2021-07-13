@@ -5,7 +5,7 @@ import socket
 import sqlite3
 import traceback
 
-SERVICE_CONFIRM_RES = 'cap30' #confirmar-asistencia-participantes
+SERVICE_CONFIRM_RES = 'cap31' #confirmar-asistencia-participantes
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -49,7 +49,7 @@ while True:
             if len(inv)!=0 and len(res)!=0:
                 cur.execute(f'UPDATE invitados SET asistio=1 WHERE rut=? AND reserva=?;',(rut, reserva_id,))
                 conn_bd.commit()
-                print('Reserva realizada')
+                print('asistencia confirmada')
 
                 trans_cmd = SERVICE_CONFIRM_RES + 'Success' 
                 trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd

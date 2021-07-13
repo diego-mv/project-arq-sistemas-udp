@@ -7,7 +7,7 @@ import socket
 import sqlite3
 import datetime
 
-SERVICE_TRAZABILIDAD = 'tra30'
+SERVICE_TRAZABILIDAD = 'tra31'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -48,7 +48,7 @@ while True:
             contactos_estrechos = []
             invitados = []
 
-            cur.execute(f'SELECT reserva_id FROM invitados WHERE rut=? AND asistio=1',(rut_contagiado,))
+            cur.execute(f'SELECT reserva_id FROM invitados WHERE rut=?',(rut_contagiado,))
             res = cur.fetchall()
             print(res)
             id_reservas_contagiado = []
