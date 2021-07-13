@@ -4,8 +4,8 @@ import socket
 import json
 
 #------Servicios---------#
-SERVICE_LOGIN = 'log11'
-SERVICE_REGISTER = 'rgt11'
+SERVICE_LOGIN = 'log12'
+SERVICE_REGISTER = 'rgt12'
 SERVICE_LIST_SALAS = 'sls01'
 SERVICE_HOR_USADO_SALA = 'hus01'
 SERVICE_CONFIRM_RES = 'scr01'
