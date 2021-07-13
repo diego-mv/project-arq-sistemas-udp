@@ -47,7 +47,7 @@ while True:
             cur.execute('SELECT id FROM reserva WHERE inicia=? AND termina=? AND sala_id=? AND anfitrion_id=?;',(inicia,termina,sala_id,anfitrion_id,))
             id = cur.fetchall()
 
-            trans_cmd = SERVICE_CONFIRM_RES + 'Success' + id
+            trans_cmd = SERVICE_CONFIRM_RES + 'Success' + id[0]
             trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
             socket.send(trans.encode(encoding='UTF-8'))
     except sqlite3.Error as er:
