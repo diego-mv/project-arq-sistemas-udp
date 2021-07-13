@@ -215,7 +215,7 @@ while True:
                                 if(len(reservas_realizadas) !=0 ):
                                     print('Indique la reserva que desea cancelar:')
                                     for i in range(len(reservas_realizadas)):
-                                        print(f'{i+1}. {reservas_realizadas[i]["reserva"]}')
+                                        print(f'{i+1}. {reservas_realizadas[i][1]}')
                                     opt_reserva_cancel = int(input('>> '))
 
 

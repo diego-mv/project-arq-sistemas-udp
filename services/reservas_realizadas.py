@@ -48,7 +48,6 @@ while True:
             for i in range(len(result)):
                 cur.execute(f'SELECT ubicacion FROM sala WHERE id=?;',(result[i][4],))
                 result_sala = cur.fetchall()
-                
             
             jsonSalas = json.dumps(result_sala)
             trans_cmd = SERVICE_RESERV_REALIZADAS + jsonSalas
