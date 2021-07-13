@@ -4,18 +4,18 @@ import socket
 import json
 
 #------Servicios---------#
-SERVICE_LOGIN = 'log12'
-SERVICE_REGISTER = 'rgt12'
-SERVICE_LIST_SALAS = 'sls01'
-SERVICE_HOR_USADO_SALA = 'hus02'
-SERVICE_CONFIRM_RES = 'scr01'
-SERVICE_ADD_PARTICIPANTE_RESERV = 'apr01'
-SERVICE_RESERV_REALIZADAS = 'rer01'
-SERVICE_CANCEL_RESERV = 'car01'
-SERVICE_CONFIRM_INV = 'cap01'
-SERVICE_NUEVA_SALA = 'nsa01'
-SERVICE_DELETE_SALA = 'bsa01'
-SERVICE_TRAZABILIDAD = 'tra01'
+SERVICE_LOGIN = 'log20'
+SERVICE_REGISTER = 'rgt20'
+SERVICE_LIST_SALAS = 'sls20'
+SERVICE_HOR_USADO_SALA = 'hus20'
+SERVICE_CONFIRM_RES = 'scr20'
+SERVICE_ADD_PARTICIPANTE_RESERV = 'apr20'
+SERVICE_RESERV_REALIZADAS = 'rer20'
+SERVICE_CANCEL_RESERV = 'car20'
+SERVICE_CONFIRM_INV = 'cap20'
+SERVICE_NUEVA_SALA = 'nsa20'
+SERVICE_DELETE_SALA = 'bsa20'
+SERVICE_TRAZABILIDAD = 'tra20'
 
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -42,7 +42,6 @@ def GetFromService(name_service): #Verifica si servicio esta UP (?)
     trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
     socket.send(trans.encode(encoding='UTF-8'))
     status = socket.recv(4090).decode('UTF-8')[10:12]
-    print(status)
     return status
 
 rut_usuario = ''
