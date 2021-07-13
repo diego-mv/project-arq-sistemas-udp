@@ -5,7 +5,7 @@ cur = conn_bd.cursor()
 
 cur.execute('CREATE TABLE Rol(id integer PRIMARY KEY AUTOINCREMENT, nombre varchar(50));')
 
-cur.execute('CREATE TABLE Usuario(rut integer PRIMARY KEY, nombre varchar(100), correo varchar(100), fono int, pwhash longtext, rol_id int, FOREIGN KEY(rol_id) REFERENCES Rol(id))')
+cur.execute('CREATE TABLE Usuario(rut integer PRIMARY KEY, nombre varchar(100), correo varchar(100), fono int, pwhash longtext, rol_id int, FOREIGN KEY(rol_id) REFERENCES Rol(id));')
 
 cur.execute('CREATE TABLE Sala(id integer PRIMARY KEY AUTOINCREMENT, ubicacion varchar(100), aforo int);')
 

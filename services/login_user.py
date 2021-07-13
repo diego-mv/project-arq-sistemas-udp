@@ -75,6 +75,8 @@ while True:
                     trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
                     socket.send(trans.encode(encoding='UTF-8'))
             break
+    except sqlite3.Error as er:
+        print('SQLite error: %s' % (' '.join(er.args)))
     except:
         ex = sys.exc_info()[0]
         print(f"Error: {ex}")
