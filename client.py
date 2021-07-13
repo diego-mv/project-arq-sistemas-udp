@@ -4,18 +4,18 @@ import socket
 import json
 
 #------Servicios---------#
-SERVICE_LOGIN = 'log08'
-SERVICE_REGISTER = 'rgt08'
-SERVICE_LIST_SALAS = 'sls08'
-SERVICE_HOR_USADO_SALA = 'hus08'
-SERVICE_CONFIRM_RES = 'scr08'
-SERVICE_ADD_PARTICIPANTE_RESERV = 'apr08'
-SERVICE_RESERV_REALIZADAS = 'rer08'
-SERVICE_CANCEL_RESERV = 'car08'
-SERVICE_CONFIRM_INV = 'cap08'
-SERVICE_NUEVA_SALA = 'nsa08'
-SERVICE_DELETE_SALA = 'bsa08'
-SERVICE_TRAZABILIDAD = 'tra08'
+SERVICE_LOGIN = 'log09'
+SERVICE_REGISTER = 'rgt09'
+SERVICE_LIST_SALAS = 'sls09'
+SERVICE_HOR_USADO_SALA = 'hus09'
+SERVICE_CONFIRM_RES = 'scr09'
+SERVICE_ADD_PARTICIPANTE_RESERV = 'apr09'
+SERVICE_RESERV_REALIZADAS = 'rer09'
+SERVICE_CANCEL_RESERV = 'car09'
+SERVICE_CONFIRM_INV = 'cap09'
+SERVICE_NUEVA_SALA = 'nsa09'
+SERVICE_DELETE_SALA = 'bsa09'
+SERVICE_TRAZABILIDAD = 'tra09'
 
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -200,7 +200,7 @@ while True:
                             print('Servicio de reserva no disponible')
 
                     elif(opt2 == 2): #Cancela reserva ya guardada en la BD
-                        print('Indique la reserva que desea cancelar:')
+                        
                         if GetFromService(SERVICE_RESERV_REALIZADAS) == 'OK' and GetFromService(SERVICE_CANCEL_RESERV) == 'OK':
                                 data_reservas_realiz = {
                                     'rut': rut_usuario
@@ -210,9 +210,9 @@ while True:
                                 while True: 
                                     reservas_realizadas = socket.recv(390)
                                     break
-                                
+                                print('Indique la reserva que desea cancelar:')
                                 for i in range(len(reservas_realizadas)):
-                                    print(f'{i+1}. {reservas_realizadas[i][1]}')
+                                    print(f'{i+1}. {reservas_realizadas[i]["reserva"]}')
                                 opt_reserva_cancel = int(input('>> '))
 
                                 for i in range(len(reservas_realizadas)):

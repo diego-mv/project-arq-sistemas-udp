@@ -6,7 +6,7 @@ import traceback
 import sqlite3
 import json
 
-SERVICE_RESERV_REALIZADAS = 'rer08'
+SERVICE_RESERV_REALIZADAS = 'rer09'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -51,7 +51,7 @@ while True:
                 result_reservas.append(
                     {
                         'id' : result[i][0],
-                        'reserva': f"{result_sala[0][0]} {result[i][1]} - {result[i][2][11:]}"
+                        'reserva': f"{result_sala[i][0]} {result[i][1]} - {result[i][2][11:]}"
                     }
                 )
             
