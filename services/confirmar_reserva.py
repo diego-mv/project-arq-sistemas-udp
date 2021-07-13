@@ -5,7 +5,7 @@ import socket
 import traceback
 import sqlite3
 
-SERVICE_CONFIRM_RES = 'scr05'
+SERVICE_CONFIRM_RES = 'scr06'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -46,8 +46,8 @@ while True:
             print('Reserva realizada')
             cur.execute('SELECT id FROM reserva WHERE inicia=? AND termina=? AND sala_id=? AND anfitrion_id=?;',(inicia,termina,sala_id,anfitrion_id,))
             id = cur.fetchone()
-            print(id)
-            trans_cmd = SERVICE_CONFIRM_RES + 'Success' + id
+            print(id[0])
+            trans_cmd = SERVICE_CONFIRM_RES + 'Success' + str(id[0])
             trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
             socket.send(trans.encode(encoding='UTF-8'))
     except sqlite3.Error as er:
