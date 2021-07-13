@@ -203,7 +203,7 @@ while True:
                         print('Indique la reserva que desea cancelar:')
                         if GetFromService(SERVICE_RESERV_REALIZADAS) == 'OK' and GetFromService(SERVICE_CANCEL_RESERV) == 'OK':
                                 data_reservas_realiz = {
-                                    'rut_anfitrion': rut_usuario
+                                    'rut': rut_usuario
                                 }
                                 SendToService(SERVICE_RESERV_REALIZADAS, data_reservas_realiz)
 
