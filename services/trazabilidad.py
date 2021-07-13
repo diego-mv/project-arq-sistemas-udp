@@ -7,7 +7,7 @@ import socket
 import sqlite3
 import datetime
 
-SERVICE_TRAZABILIDAD = 'tra86'
+SERVICE_TRAZABILIDAD = 'tra55'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -55,8 +55,11 @@ while True:
             for i in range(len(res)):
                 id_reservas_contagiado.append(res[i][0])
             print(id_reservas_contagiado)
-            cur.execute(f'SELECT * FROM reserva  WHERE id IN {tuple(id_reservas_contagiado)} AND ((CAST(SUBSTR(inicia,4,5) AS INTEGER)>=? AND CAST(SUBSTR(inicia,1,2) AS INTEGER)<=?) OR (CAST(SUBSTR(inicia,4,5) AS INTEGER)=? AND CAST(SUBSTR(inicia,1,2) AS INTEGER)>=?))',(mes,dia,mes,dia,))
-            reservas_recientes = cur.fetchall()
+            reservas_recientes = []
+            for i in range(len(id_reservas_contagiado)):
+                cur.execute(f'SELECT * FROM reserva  WHERE id=? AND ((CAST(SUBSTR(inicia,4,5) AS INTEGER)>=? AND CAST(SUBSTR(inicia,1,2) AS INTEGER)<=?) OR (CAST(SUBSTR(inicia,4,5) AS INTEGER)=? AND CAST(SUBSTR(inicia,1,2) AS INTEGER)>=?))',(id_reservas_contagiado[i],mes,dia,mes,dia,))
+                reservas_temp = cur.fetchall()
+                reservas_recientes.append(reservas_temp[0])
             print(reservas_recientes)
             
             for i in range(len(reservas_recientes)):
