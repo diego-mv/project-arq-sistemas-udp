@@ -363,6 +363,7 @@ while True:
                             SendToService(SERVICE_RESERV_REALIZADAS, data_reservas_realiz)
                             while True: 
                                 reservas_realizadas = socket.recv(390)
+                                reservas_realizadas = json.loads(reservas_realizadas[12:])
                                 break
                             
                             for i in range(len(reservas_realizadas)):
@@ -378,7 +379,7 @@ while True:
 
                             SendToService(SERVICE_CANCEL_RESERV, data_cancel_reserva)
                             while True: 
-                                reservas_realizadas = socket.recv(390)
+                                res_sv = socket.recv(390)
                                 break
                             print('Reserva cancelada.')
                         else:
