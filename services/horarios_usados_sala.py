@@ -6,7 +6,7 @@ import socket
 import traceback
 import sqlite3
 
-SERVICE_HOR_USADO_SALA = 'hus01'
+SERVICE_HOR_USADO_SALA = 'hus03'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -41,10 +41,10 @@ while True:
             id_sala = data['id_sala']
             fecha_req = data['fecha_req']
 
-            cur.execute(f'SELECT * FROM reserva WHERE sala_id=? AND SUBSTRING(inicia,1,10)=?;',(id_sala, fecha_req,))
+            cur.execute(f'SELECT * FROM reserva WHERE sala_id=? AND SUBSTR(inicia,1,10)=?;',(id_sala, fecha_req,))
             result_salas = cur.fetchall()
             horarios_usados = []
-            for i in len(result_salas):
+            for i in range(len(result_salas)):
                 horarios_usados.append(f'{result_salas[i][1][0:11]} - {result_salas[i][2][0:11]}')
 
             jsonHorariosUsados = json.dumps(horarios_usados)

@@ -7,7 +7,7 @@ import json
 SERVICE_LOGIN = 'log12'
 SERVICE_REGISTER = 'rgt12'
 SERVICE_LIST_SALAS = 'sls01'
-SERVICE_HOR_USADO_SALA = 'hus01'
+SERVICE_HOR_USADO_SALA = 'hus02'
 SERVICE_CONFIRM_RES = 'scr01'
 SERVICE_ADD_PARTICIPANTE_RESERV = 'apr01'
 SERVICE_RESERV_REALIZADAS = 'rer01'
@@ -153,8 +153,7 @@ while True:
                                             PARTICIPANTES.append({
                                                 'rut': rut_p,
                                                 'nombre': nombre_p,
-                                                'correo': correo_p,
-                                                'reserva_id': data_service_salas[opt_sala-1][0]                                            
+                                                'correo': correo_p,                                         
                                             })
                                             print('Participante agregado')
                                     elif(opt3 == 2): #Confirmar reserva
@@ -169,17 +168,17 @@ while True:
                                             SendToService(SERVICE_CONFIRM_RES, data_confirma_reserva)
 
                                             while True: 
-                                                data_service_horario_usado = socket.recv(390)
+                                                data_service_confirm_res = socket.recv(390)
                                                 break
                                             #AGREGA A LOS PARTICIPANTES EN LA BD DESPUES DE AGREGAR LA RESERVA EN LA BD
-
+                                            id_nueva_reserva = str(data_service_confirm_res)[21:len(str(data_service_confirm_res))-1]
                                             print('Agregando los participantes a la reserva realizada...')
                                             for i in range(len(PARTICIPANTES)):
                                                 data_participante = {
                                                     'rut': PARTICIPANTES[i]['rut'],
                                                     'nombre': PARTICIPANTES[i]['nombre'],
                                                     'correo': PARTICIPANTES[i]['correo'],
-                                                    'reserva_id': data_service_salas[opt_sala-1][0]
+                                                    'reserva_id': id_nueva_reserva
                                                 }
                                                 SendToService(SERVICE_ADD_PARTICIPANTE_RESERV, data_participante)
 

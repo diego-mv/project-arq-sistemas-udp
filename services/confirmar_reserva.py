@@ -44,8 +44,10 @@ while True:
             cur.execute(f'INSERT INTO reserva (inicia,termina,anfitrion_id, sala_id, estado_id) VALUES (?,?,?,?, 1);',(inicia, termina, anfitrion_id, sala_id,))
             conn_bd.commit()
             print('Reserva realizada')
+            cur.execute('SELECT id FROM reserva WHERE inicia=? AND termina=? AND sala_id=? AND anfitrion_id AND sala_id=?;',(inicia,termina,sala_id,anfitrion_id,sala_id,))
+            id = cur.fetchall()
 
-            trans_cmd = SERVICE_CONFIRM_RES + 'Success' 
+            trans_cmd = SERVICE_CONFIRM_RES + 'Success' + id
             trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
             socket.send(trans.encode(encoding='UTF-8'))
     except sqlite3.Error as er:
