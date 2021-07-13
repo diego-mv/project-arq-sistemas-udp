@@ -357,10 +357,12 @@ while True:
                         else:
                             print('Servicio no disponible.')
                     elif(opt_rec == 2): #CANCELAR RESERVA
-                        rut = input('Ingrese el rut del anfitrión\n>> ')
-
+                        rut_anf = input('Ingrese el rut del anfitrión\n>> ')
+                        data_reservas_realiz_rec = {
+                            'rut': rut_anf
+                        }
                         if GetFromService(SERVICE_RESERV_REALIZADAS) == 'OK' and GetFromService(SERVICE_CANCEL_RESERV) == 'OK':
-                            SendToService(SERVICE_RESERV_REALIZADAS, data_reservas_realiz)
+                            SendToService(SERVICE_RESERV_REALIZADAS, data_reservas_realiz_rec)
                             while True: 
                                 reservas_realizadas = socket.recv(390)
                                 reservas_realizadas = json.loads(reservas_realizadas[12:])
