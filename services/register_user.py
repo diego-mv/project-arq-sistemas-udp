@@ -47,7 +47,7 @@ while True:
                 correo = data['correo']
                 fono = data['fono']
 
-                cur.execute(f'INSERT INTO Usuario (rut, nombre, correo, fono, pwhash, rol_id) VALUES ({rut}, {nombre}, {correo}, {fono}, {password_hash}, {2})')
+                cur.execute(f'INSERT INTO usuario (rut, nombre, correo, fono, pwhash, rol_id) VALUES ({rut}, {nombre}, {correo}, {fono}, {password_hash}, 2);')
                 cur.fetchall()
                 conn_bd.commit()
 
@@ -65,6 +65,6 @@ while True:
         ex = sys.exc_info()[0]
         print(f"Error: {ex}")
     finally:
-            print('Finally')
+        print('Finally')
 
 socket.close()
