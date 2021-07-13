@@ -1,3 +1,4 @@
+import datetime
 from getpass import getpass
 import socket
 import json
@@ -246,7 +247,25 @@ while True:
 
                     if(opt_admin == 1):
                         if GetFromService(SERVICE_TRAZABILIDAD) == 'OK':
-                            print('trazab')
+                            rut_contagiado = input('Ingrese rut de la persona contagiada\n>> ')
+                            data_contagiado = {
+                                'rut': rut_contagiado
+                            }
+
+                            SendToService(SERVICE_TRAZABILIDAD, data_contagiado)
+                            print('Buscando contactos estrechos...')
+                            while True: 
+                                data_service_contactoEstr = socket.recv(390)
+                                data_service_contactoEstr = json.loads(data_service_salas[12:])
+                                break
+                            if (len(data_service_contactoEstr) == 0):
+                                print('La persona no tuvo contactos estrechos.')
+                            else:
+                                print('Contactos estrechos (rut, nombre, email):')
+                                for i in range(len(data_service_contactoEstr)):
+                                    print(f'{i+1}) {data_service_contactoEstr[i]["rut"]} - {data_service_contactoEstr[i]["nombre"]} - {data_service_contactoEstr[i]["email"]}')
+
+                                print('----------------------------------------')
                         else:
                             print('Servicio no disponible')
                     elif(opt_admin == 2):
