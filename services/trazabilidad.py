@@ -7,7 +7,7 @@ import socket
 import sqlite3
 import datetime
 
-SERVICE_TRAZABILIDAD = 'tra26'
+SERVICE_TRAZABILIDAD = 'tra20'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -81,15 +81,9 @@ while True:
             socket.send(trans.encode(encoding='UTF-8'))
     except sqlite3.Error as er:
         print('SQLite error: %s' % (' '.join(er.args)))
-        trans_cmd = SERVICE_TRAZABILIDAD + 'Error' 
-        trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
-        socket.send(trans.encode(encoding='UTF-8'))
     except:
         ex = traceback.print_exc()
         print(f"Error: {ex}")
-        trans_cmd = SERVICE_TRAZABILIDAD + 'Error' 
-        trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
-        socket.send(trans.encode(encoding='UTF-8'))
     finally:
         print('Finally')
 

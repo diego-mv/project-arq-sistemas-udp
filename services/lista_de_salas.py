@@ -6,7 +6,7 @@ import sqlite3
 import traceback
 import sys
 
-SERVICE_LIST_SALAS = 'sls26'
+SERVICE_LIST_SALAS = 'sls20'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -41,24 +41,16 @@ while True:
 
             cur.execute(f'SELECT * FROM sala;')
             result_salas = cur.fetchall()
-            if(len(result_salas) == 0):
-                jsonSalas = json.dumps(result_salas)
-                trans_cmd = SERVICE_LIST_SALAS + jsonSalas
-            else:
-                trans_cmd = SERVICE_LIST_SALAS 
+            jsonSalas = json.dumps(result_salas)
+
+            trans_cmd = SERVICE_LIST_SALAS + jsonSalas
             trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
             socket.send(trans.encode(encoding='UTF-8'))
     except sqlite3.Error as er:
         print('SQLite error: %s' % (' '.join(er.args)))
-        trans_cmd = SERVICE_LIST_SALAS + 'Error' 
-        trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
-        socket.send(trans.encode(encoding='UTF-8'))
     except:
         ex = traceback.print_exc()
         print(f"Error: {ex}")
-        trans_cmd = SERVICE_LIST_SALAS + 'Error' 
-        trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
-        socket.send(trans.encode(encoding='UTF-8'))
     finally:
         print('Finally')
 

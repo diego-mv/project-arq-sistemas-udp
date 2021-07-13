@@ -5,7 +5,7 @@ import sys
 import socket
 import sqlite3
 
-SERVICE_LOGIN = 'log26'
+SERVICE_LOGIN = 'log20'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -78,15 +78,9 @@ while True:
             break
     except sqlite3.Error as er:
         print('SQLite error: %s' % (' '.join(er.args)))
-        trans_cmd = SERVICE_LOGIN + 'Error' 
-        trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
-        socket.send(trans.encode(encoding='UTF-8'))
     except:
         ex = traceback.print_exc()
         print(f"Error: {ex}")
-        trans_cmd = SERVICE_LOGIN + 'Error' 
-        trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
-        socket.send(trans.encode(encoding='UTF-8'))
     finally:
             print('Finally')
 
