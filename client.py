@@ -189,7 +189,7 @@ while True:
                                             print('Reserva realizada, ¡adios!')
                                             menu_conf_reserva = False
                                         else: 
-                                            print('Servicio de reserva no disponible')  
+                                            print('Servicio de reserva no disponible al confirmar y agregar participante')  
                                             menu_conf_reserva = False
                                     else:
                                         print('¡ADIOS!')
