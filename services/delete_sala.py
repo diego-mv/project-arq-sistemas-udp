@@ -5,7 +5,7 @@ import socket
 import traceback
 import sqlite3
 
-SERVICE_DELETE_SALA = 'bsa22' #confirmar-asistencia-participantes
+SERVICE_DELETE_SALA = 'bsa23' #confirmar-asistencia-participantes
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
