@@ -5,7 +5,7 @@ import json
 
 #------Servicios---------#
 SERVICE_LOGIN = 'lgn06'
-SERVICE_REGISTER = 'rgt05'
+SERVICE_REGISTER = 'rgt10'
 SERVICE_LIST_SALAS = 'sls01'
 SERVICE_HOR_USADO_SALA = 'hus01'
 SERVICE_CONFIRM_RES = 'scr01'
@@ -401,10 +401,8 @@ while True:
             
             while True: 
                 data_service = socket.recv(390)
-                print(data_service)
                 break
-            print(data_service)
-
+            print('Registro exitoso, inicie sesion')
             #if register is success else register is error ......
 #----------------------------Salir----------------------------#
     elif(opt == 3):

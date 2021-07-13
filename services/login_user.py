@@ -4,7 +4,7 @@ import sys
 import socket
 import sqlite3
 
-SERVICE_LOGIN = 'lgn06'
+SERVICE_LOGIN = 'log10'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -39,27 +39,27 @@ while True:
             rut = data['rut']
             password_hash = data['password']
             
-            cur.execute(f'SELECT rut FROM usuario WHERE rut=?',(rut,))
+            cur.execute(f'SELECT * FROM usuario WHERE rut=?',(rut,))
             result_rut = cur.fetchall()
 
-            if(len(result_rut[0]) == 0):
+            if(len(result_rut[0][0]) == 0):
                 print('User not found')
                 trans_cmd = SERVICE_LOGIN + 'Error'
                 trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
                 socket.send(trans.encode(encoding='UTF-8'))
             else:
                 if(password_hash == result_rut[0][4]):
-                    if(result_rut[0][6] == 0):
+                    if(result_rut[0][5] == 1):
                         print('Login success')
                         trans_cmd = SERVICE_LOGIN + 'SuccessADMIN' 
                         trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
                         socket.send(trans.encode(encoding='UTF-8'))
-                    elif(result_rut[0][6] == 1):
+                    elif(result_rut[0][5] == 2):
                         print('Login success')
                         trans_cmd = SERVICE_LOGIN + 'SuccessUSER' 
                         trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
                         socket.send(trans.encode(encoding='UTF-8'))
-                    elif(result_rut[0][6] == 2):
+                    elif(result_rut[0][5] == 3):
                         print('Login success')
                         trans_cmd = SERVICE_LOGIN + 'SuccessRECEPTION' 
                         trans = generate_transaction_lenght(len(trans_cmd)) + trans_cmd
