@@ -5,7 +5,7 @@ import socket
 import traceback
 import sqlite3
 
-SERVICE_CONFIRM_RES = 'scr20'
+SERVICE_CONFIRM_RES = 'scr01'
 #-------CONNECTION-------#
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER = '200.14.84.235'
@@ -44,7 +44,7 @@ while True:
             cur.execute(f'INSERT INTO reserva (inicia,termina,anfitrion_id, sala_id, estado_id) VALUES (?,?,?,?, 1);',(inicia, termina, anfitrion_id, sala_id,))
             conn_bd.commit()
             print('Reserva realizada')
-            cur.execute('SELECT id FROM reserva WHERE inicia=? AND termina=? AND sala_id=? AND anfitrion_id AND sala_id=?;',(inicia,termina,sala_id,anfitrion_id,sala_id,))
+            cur.execute('SELECT id FROM reserva WHERE inicia=? AND termina=? AND sala_id=? AND anfitrion_id;',(inicia,termina,sala_id,anfitrion_id,))
             id = cur.fetchall()
 
             trans_cmd = SERVICE_CONFIRM_RES + 'Success' + id
